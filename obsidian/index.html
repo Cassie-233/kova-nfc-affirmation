@@ -13,12 +13,12 @@
     button{font:inherit}
     .screen{position:relative;isolation:isolate;width:100vw;height:100svh;min-height:620px;overflow:hidden;background:#090b0c}
     .base,.wash-field,.wash,.mineral,.grain,.shade{position:absolute;inset:0;pointer-events:none}
-    .base{z-index:-6;background:linear-gradient(154deg,#596064 0%,#262b2e 28%,#3e4548 53%,#15191b 77%,#474e51 100%)}
-    .wash-field{z-index:-5;inset:-25%;overflow:hidden;filter:blur(8px) saturate(.78);transform:scale(1.06)}
+    .base{z-index:-6;background:linear-gradient(154deg,#737b7e 0%,#171b1d 27%,#525a5d 52%,#090b0c 76%,#626a6d 100%)}
+    .wash-field{z-index:-5;inset:-28%;overflow:hidden;transform:scale(1.08)}
     .wash{inset:-12%;will-change:transform,opacity;background-repeat:no-repeat}
-    .wash-a{transform:scale(1.05);background:radial-gradient(ellipse 72% 62% at 20% 18%,rgba(226,228,226,.72) 0%,rgba(170,176,177,.5) 24%,rgba(91,98,101,.18) 51%,transparent 74%),radial-gradient(ellipse 56% 76% at 80% 78%,rgba(171,176,177,.44) 0%,rgba(74,80,83,.2) 48%,transparent 75%)}
-    .wash-b{transform:scale(1.08);opacity:.9;background:radial-gradient(ellipse 63% 55% at 84% 20%,rgba(29,34,36,.86) 0%,rgba(61,68,71,.52) 30%,rgba(116,122,124,.16) 57%,transparent 78%),radial-gradient(ellipse 74% 50% at 30% 86%,rgba(207,210,209,.52) 0%,rgba(125,131,133,.28) 34%,rgba(39,44,46,.12) 65%,transparent 82%)}
-    .wash-c{transform:scale(1);background:radial-gradient(ellipse 52% 68% at 48% 53%,rgba(190,195,195,.38) 0%,rgba(104,111,113,.22) 38%,transparent 73%),linear-gradient(132deg,rgba(222,224,222,.12),transparent 36%,rgba(18,22,23,.32) 61%,rgba(178,183,183,.16));mix-blend-mode:screen;opacity:.72}
+    .wash-a{transform:scale(1.05);background:radial-gradient(ellipse 66% 58% at 17% 16%,rgba(242,243,240,.88) 0%,rgba(180,186,187,.62) 25%,rgba(84,91,94,.2) 52%,transparent 72%),radial-gradient(ellipse 52% 72% at 81% 81%,rgba(190,195,195,.54) 0%,rgba(70,77,80,.2) 50%,transparent 73%)}
+    .wash-b{transform:scale(1.08);opacity:.94;background:radial-gradient(ellipse 58% 50% at 86% 18%,rgba(8,11,12,.94) 0%,rgba(45,51,54,.66) 31%,rgba(123,130,132,.16) 57%,transparent 76%),radial-gradient(ellipse 70% 47% at 27% 87%,rgba(225,227,224,.68) 0%,rgba(130,136,138,.32) 35%,rgba(31,36,38,.12) 64%,transparent 80%)}
+    .wash-c{transform:scale(1);background:radial-gradient(ellipse 48% 63% at 49% 51%,rgba(218,221,219,.5) 0%,rgba(105,112,115,.25) 39%,transparent 69%),linear-gradient(132deg,rgba(239,240,237,.18),transparent 34%,rgba(5,8,9,.42) 61%,rgba(194,199,198,.2));mix-blend-mode:screen;opacity:.82}
     .mineral{display:none}
     .sheet{transform-box:fill-box;transform-origin:center;will-change:transform,opacity}
     .sheet path{filter:url(#soft-edge) blur(3px)}
@@ -40,8 +40,7 @@
     .ritual-center{position:absolute;top:50%;left:50%;width:min(86vw,420px);transform:translate(-50%,-51%);text-align:center}
     .ritual-copy{position:relative;filter:drop-shadow(0 0 10px rgba(235,239,238,.08))}
     .type-line{display:block}.type-char{display:inline-block;will-change:filter,opacity}
-    .sharp-copy{will-change:filter}
-    .filter-defs{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
+    .sharp-copy{will-change:contents}
     .countdown{position:absolute;left:50%;bottom:max(25px,calc(env(safe-area-inset-bottom) + 16px));margin:0;transform:translateX(-50%);font-size:10px;letter-spacing:.25em;font-variant-numeric:tabular-nums}
     .icon-button{position:absolute;display:grid;place-items:center;width:52px;height:52px;border:1px solid rgba(238,240,237,.28);border-radius:50%;color:#eef0ed;background:rgba(8,10,11,.08);cursor:pointer}
     .icon-button svg{width:18px;height:18px}.sound{top:max(25px,calc(env(safe-area-inset-top) + 10px));right:22px}.playback{left:50%;bottom:max(55px,calc(env(safe-area-inset-bottom) + 46px));transform:translateX(-50%)}
@@ -55,20 +54,6 @@
   </style>
 </head>
 <body>
-<svg class="filter-defs" aria-hidden="true">
-  <defs>
-    <filter id="organic-text-blur" x="-28%" y="-28%" width="156%" height="156%" color-interpolation-filters="sRGB">
-      <feTurbulence id="blur-noise" type="fractalNoise" baseFrequency=".014 .052" numOctaves="3" seed="31" result="noise"/>
-      <feColorMatrix in="noise" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  1.35 0 0 0 -.54" result="mask-core"/>
-      <feGaussianBlur in="mask-core" stdDeviation="10" result="soft-mask"/>
-      <feOffset id="blur-offset" in="soft-mask" dx="-190" dy="-18" result="moving-mask"/>
-      <feGaussianBlur id="text-blur" in="SourceGraphic" stdDeviation="0" result="blurred-text"/>
-      <feComposite in="blurred-text" in2="moving-mask" operator="in" result="blurred-parts"/>
-      <feComposite in="SourceGraphic" in2="moving-mask" operator="out" result="clear-parts"/>
-      <feMerge><feMergeNode in="clear-parts"/><feMergeNode in="blurred-parts"/></feMerge>
-    </filter>
-  </defs>
-</svg>
 <main class="screen">
   <div class="base" aria-hidden="true"></div>
   <div class="wash-field" aria-hidden="true"><div class="wash wash-a"></div><div class="wash wash-b"></div><div class="wash wash-c"></div></div>
@@ -123,48 +108,35 @@
   function finish(){if(ending)return;ending=true;clearInterval(timer);clearInterval(melodyTimer);fade(.0001,.8);scene?.kill();scene=gsap.timeline().to([ritual,'.ritual-copy'],{autoAlpha:0,duration:.65}).set(ritual,{visibility:'hidden'}).set(complete,{visibility:'visible',autoAlpha:1}).fromTo('.complete-inner',{autoAlpha:0,y:12,filter:'blur(6px)'},{autoAlpha:1,y:0,filter:'blur(0px)',duration:1,ease:'power2.out'});complete.setAttribute('aria-hidden','false')}
   function build(){
     master?.kill();
-    gsap.killTweensOf(['.wash','.type-char','.sharp-copy','#blur-offset','#text-blur','#blur-noise']);
+    gsap.killTweensOf(['.wash','.type-char']);
     gsap.set('.mineral',{scale:1.04,rotation:0});
     gsap.set('.sheet',{xPercent:0,yPercent:0,scale:1,rotation:0,autoAlpha:1});
     gsap.set('.wash-a',{xPercent:0,yPercent:0,scale:1.05,rotation:0,autoAlpha:1});
-    gsap.set('.wash-b',{xPercent:0,yPercent:0,scale:1.08,rotation:0,autoAlpha:.9});
-    gsap.set('.wash-c',{xPercent:0,yPercent:0,scale:1,rotation:0,autoAlpha:.72});
+    gsap.set('.wash-b',{xPercent:0,yPercent:0,scale:1.08,rotation:0,autoAlpha:.94});
+    gsap.set('.wash-c',{xPercent:0,yPercent:0,scale:1,rotation:0,autoAlpha:.82});
     gsap.set('.type-char',{autoAlpha:0,filter:'blur(7px)'});
-    gsap.set('.sharp-copy',{filter:'none'});
-    gsap.set('#blur-offset',{attr:{dx:-190,dy:-18}});
-    gsap.set('#text-blur',{attr:{stdDeviation:0}});
+    const chars=gsap.utils.toArray('.type-char');
+    const pathOne=[0,2,7,3,8,12,4,9,13,5,10,14,6,11,15,16].map(i=>chars[i]).filter(Boolean);
+    const pathTwo=[16,11,15,6,10,14,5,9,13,4,8,12,3,7,2,0].map(i=>chars[i]).filter(Boolean);
     master=gsap.timeline({paused:true,defaults:{ease:'sine.inOut'},onUpdate:update,onComplete:finish})
       .to('.type-char',{autoAlpha:1,filter:'blur(0px)',duration:reduce?0:.3,stagger:reduce?0:.11,ease:'power1.out'},.35)
-      .to('.wash-a',{xPercent:13,yPercent:-9,scale:1.18,rotation:2.2,duration:6},0)
-      .to('.wash-b',{xPercent:-12,yPercent:11,scale:1.2,rotation:-2.4,autoAlpha:1,duration:6},0)
-      .to('.wash-c',{xPercent:7,yPercent:8,scale:1.14,rotation:1.5,autoAlpha:.9,duration:6},0)
-      .to('.sheet-a',{xPercent:3,yPercent:-2,scale:1.03,rotation:.6,duration:6},0)
-      .to('.sheet-b',{xPercent:-3,yPercent:3,scale:1.04,rotation:-.7,duration:6},0)
-      .set('.sharp-copy',{filter:'url(#organic-text-blur)'},4.05)
-      .to('#text-blur',{attr:{stdDeviation:3.1},duration:1.2,ease:'sine.inOut'},4.05)
-      .to('#blur-offset',{attr:{dx:190,dy:22},duration:4.7,ease:'sine.inOut'},4.05)
-      .to('#blur-noise',{attr:{baseFrequency:'.019 .066'},duration:4.7,ease:'sine.inOut'},4.05)
-      .to('#text-blur',{attr:{stdDeviation:0},duration:1.2,ease:'sine.inOut'},7.55)
-      .set('.sharp-copy',{filter:'none'},8.8)
-      .to('.wash-a',{xPercent:-10,yPercent:13,scale:1.28,rotation:-2.8,duration:7},6)
-      .to('.wash-b',{xPercent:14,yPercent:-12,scale:1.12,rotation:2.7,autoAlpha:.78,duration:7},6)
-      .to('.wash-c',{xPercent:-8,yPercent:-9,scale:1.22,rotation:-1.8,autoAlpha:.7,duration:7},6)
-      .to('.sheet-c',{xPercent:-2,yPercent:3,scale:1.04,rotation:-.8,duration:7},6)
-      .set('#blur-offset',{attr:{dx:210,dy:-12}},11.15)
-      .set('#blur-noise',{attr:{baseFrequency:'.016 .058'}},11.15)
-      .set('.sharp-copy',{filter:'url(#organic-text-blur)'},11.15)
-      .to('#text-blur',{attr:{stdDeviation:2.7},duration:1.1,ease:'sine.inOut'},11.15)
-      .to('#blur-offset',{attr:{dx:-205,dy:26},duration:4.8,ease:'sine.inOut'},11.15)
-      .to('#blur-noise',{attr:{baseFrequency:'.022 .071'},duration:4.8,ease:'sine.inOut'},11.15)
-      .to('#text-blur',{attr:{stdDeviation:0},duration:1.15,ease:'sine.inOut'},14.75)
-      .set('.sharp-copy',{filter:'none'},15.95)
-      .to('.wash-a',{xPercent:0,yPercent:0,scale:1.05,rotation:0,duration:7},13)
-      .to('.wash-b',{xPercent:0,yPercent:0,scale:1.08,rotation:0,autoAlpha:.9,duration:7},13)
-      .to('.wash-c',{xPercent:0,yPercent:0,scale:1,rotation:0,autoAlpha:.72,duration:7},13)
+      .to('.wash-a',{xPercent:30,yPercent:-22,scale:1.3,rotation:3.2,duration:5.6},0)
+      .to('.wash-b',{xPercent:-28,yPercent:25,scale:1.34,rotation:-3.6,autoAlpha:1,duration:5.6},0)
+      .to('.wash-c',{xPercent:20,yPercent:23,scale:1.27,rotation:2.5,autoAlpha:1,duration:5.6},0)
+      .to(pathOne,{filter:'blur(5.5px)',duration:.68,stagger:.15,ease:'sine.inOut'},4.0)
+      .to(pathOne,{filter:'blur(0px)',duration:.95,stagger:.15,ease:'sine.inOut'},4.72)
+      .to('.wash-a',{xPercent:-24,yPercent:28,scale:1.42,rotation:-4,duration:7},5.6)
+      .to('.wash-b',{xPercent:31,yPercent:-27,scale:1.2,rotation:4.1,autoAlpha:.76,duration:7},5.6)
+      .to('.wash-c',{xPercent:-25,yPercent:-20,scale:1.38,rotation:-3.1,autoAlpha:.68,duration:7},5.6)
+      .to(pathTwo,{filter:'blur(4.8px)',duration:.72,stagger:.16,ease:'sine.inOut'},11.0)
+      .to(pathTwo,{filter:'blur(0px)',duration:1,stagger:.16,ease:'sine.inOut'},11.78)
+      .to('.wash-a',{xPercent:4,yPercent:-4,scale:1.13,rotation:.5,duration:7.4},12.6)
+      .to('.wash-b',{xPercent:-3,yPercent:5,scale:1.14,rotation:-.4,autoAlpha:.94,duration:7.4},12.6)
+      .to('.wash-c',{xPercent:2,yPercent:3,scale:1.08,rotation:.3,autoAlpha:.82,duration:7.4},12.6)
       .to('.sheet',{xPercent:0,yPercent:0,scale:1,rotation:0,duration:7},13);
   }
   function start(){if(!window.gsap)return;scene?.kill();clearInterval(timer);audioStart();paused=muted=ending=false;sound.setAttribute('aria-pressed','false');playback.setAttribute('aria-pressed','false');build();intro.setAttribute('aria-hidden','true');ritual.setAttribute('aria-hidden','false');complete.setAttribute('aria-hidden','true');gsap.set(complete,{autoAlpha:0,visibility:'hidden'});scene=gsap.timeline({onComplete:()=>{master.play(0);timer=setInterval(update,200)}}).to(['.intro-copy','.intro-brand','.begin-wrap'],{autoAlpha:0,filter:'blur(7px)',duration:.6,ease:'power2.in'}).set(intro,{autoAlpha:0,visibility:'hidden'}).set(ritual,{autoAlpha:1,visibility:'visible'});}
-  function reset(){clearInterval(timer);clearInterval(melodyTimer);fade(.0001,.5);scene?.kill();master?.kill();gsap.killTweensOf([intro,ritual,complete,'.intro-copy','.intro-brand','.begin-wrap','.complete-inner','.ritual-copy','.type-char','.sharp-copy','#blur-offset','#text-blur','#blur-noise']);ending=paused=false;gsap.set([complete,ritual],{autoAlpha:0,visibility:'hidden'});gsap.set(intro,{autoAlpha:1,visibility:'visible'});gsap.set(['.intro-copy','.intro-brand','.begin-wrap','.complete-inner','.ritual-copy','.sharp-copy'],{clearProps:'all'});gsap.set('.type-char',{clearProps:'all'});gsap.set('#text-blur',{attr:{stdDeviation:0}});countdown.textContent='00:20';intro.setAttribute('aria-hidden','false');ritual.setAttribute('aria-hidden','true');complete.setAttribute('aria-hidden','true')}
+  function reset(){clearInterval(timer);clearInterval(melodyTimer);fade(.0001,.5);scene?.kill();master?.kill();gsap.killTweensOf([intro,ritual,complete,'.intro-copy','.intro-brand','.begin-wrap','.complete-inner','.ritual-copy','.type-char']);ending=paused=false;gsap.set([complete,ritual],{autoAlpha:0,visibility:'hidden'});gsap.set(intro,{autoAlpha:1,visibility:'visible'});gsap.set(['.intro-copy','.intro-brand','.begin-wrap','.complete-inner','.ritual-copy'],{clearProps:'all'});gsap.set('.type-char',{clearProps:'all'});countdown.textContent='00:20';intro.setAttribute('aria-hidden','false');ritual.setAttribute('aria-hidden','true');complete.setAttribute('aria-hidden','true')}
   begin.addEventListener('click',start);again.addEventListener('click',reset);
   sound.addEventListener('click',()=>{muted=!muted;sound.setAttribute('aria-pressed',String(muted));sound.setAttribute('aria-label',muted?'Turn sound on':'Turn sound off');fade(muted?.0001:.2,.35)});
   playback.addEventListener('click',()=>{if(!master||ending)return;paused=!paused;playback.setAttribute('aria-pressed',String(paused));playback.setAttribute('aria-label',paused?'Continue ritual':'Pause ritual');paused?(master.pause(),fade(.0001,.25)):(master.resume(),fade(muted?.0001:.2,.35))});
