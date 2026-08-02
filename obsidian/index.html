@@ -19,7 +19,7 @@
     .wash-a{transform:scale(1.05);background:radial-gradient(ellipse 66% 58% at 17% 16%,rgba(242,243,240,.88) 0%,rgba(180,186,187,.62) 25%,rgba(84,91,94,.2) 52%,transparent 72%),radial-gradient(ellipse 52% 72% at 81% 81%,rgba(190,195,195,.54) 0%,rgba(70,77,80,.2) 50%,transparent 73%)}
     .wash-b{transform:scale(1.08);opacity:.94;background:radial-gradient(ellipse 58% 50% at 86% 18%,rgba(8,11,12,.94) 0%,rgba(45,51,54,.66) 31%,rgba(123,130,132,.16) 57%,transparent 76%),radial-gradient(ellipse 70% 47% at 27% 87%,rgba(225,227,224,.68) 0%,rgba(130,136,138,.32) 35%,rgba(31,36,38,.12) 64%,transparent 80%)}
     .wash-c{transform:scale(1);background:radial-gradient(ellipse 48% 63% at 49% 51%,rgba(218,221,219,.52) 0%,rgba(105,112,115,.25) 39%,transparent 72%),radial-gradient(ellipse 62% 48% at 74% 58%,rgba(9,12,13,.52) 0%,rgba(39,45,47,.28) 38%,transparent 76%),radial-gradient(ellipse 46% 58% at 18% 72%,rgba(183,188,188,.3) 0%,transparent 73%);opacity:.82}
-    .wash-d{transform:scale(1.04) rotate(-8deg);background:conic-gradient(from 210deg at 48% 54%,transparent 0deg,rgba(212,216,215,.32) 48deg,rgba(75,82,85,.18) 102deg,transparent 154deg,rgba(8,11,12,.5) 220deg,rgba(173,178,178,.2) 286deg,transparent 360deg);opacity:.66}
+    .wash-d{transform:scale(1.04) rotate(-8deg);background:radial-gradient(ellipse 38% 16% at 15% 28%,rgba(219,222,220,.28),transparent 76%),radial-gradient(ellipse 42% 18% at 35% 40%,rgba(137,143,145,.24),transparent 78%),radial-gradient(ellipse 48% 20% at 57% 53%,rgba(14,18,19,.42),transparent 76%),radial-gradient(ellipse 42% 17% at 76% 66%,rgba(187,191,190,.24),transparent 78%),radial-gradient(ellipse 34% 15% at 92% 78%,rgba(54,60,62,.28),transparent 76%);opacity:.66}
     .mineral{display:none}
     .sheet{transform-box:fill-box;transform-origin:center;will-change:transform,opacity}
     .sheet path{filter:url(#soft-edge) blur(3px)}
@@ -39,7 +39,7 @@
     .begin{width:224px;height:58px;border:1px solid rgba(238,240,237,.5);border-radius:0;color:#eef0ed;background:rgba(10,12,13,.15);cursor:pointer;font-size:10px;font-weight:500;letter-spacing:.38em;text-indent:.38em;text-transform:uppercase}
     .meta{margin:16px 0 0;font-size:8px;letter-spacing:.25em;opacity:.48;white-space:nowrap}
     .ritual{z-index:4;visibility:hidden;opacity:0}
-    .ritual-center{position:absolute;top:46.5%;left:50%;width:min(86vw,420px);transform:translate(-50%,-50%);text-align:center}
+    .ritual-center{position:absolute;top:48%;left:50%;width:min(86vw,420px);transform:translate(-50%,-50%);text-align:center}
     .ritual-copy{position:relative;filter:drop-shadow(0 0 10px rgba(235,239,238,.08))}
     .type-line{display:block}.type-char{display:inline-block;will-change:filter,opacity}
     .sharp-copy{will-change:contents}
@@ -127,14 +127,14 @@
       .to('.wash-b',{xPercent:-12,yPercent:13,scale:1.2,rotation:-2.8,autoAlpha:1,duration:5.6},0)
       .to('.wash-c',{xPercent:10,yPercent:12,scale:1.16,rotation:2,autoAlpha:1,duration:5.6},0)
       .to('.wash-d',{xPercent:-8,yPercent:7,scale:1.18,rotation:8,autoAlpha:.82,duration:5.6},0)
-      .to(pathOne,{filter:'blur(5px)',duration:1.3,stagger:.18,ease:'sine.inOut'},4.0)
-      .to(pathOne,{filter:'blur(0px)',duration:1.55,stagger:.18,ease:'sine.inOut'},5.25)
+      .to(pathOne,{filter:'blur(5px)',duration:1.3,stagger:.22,ease:'sine.inOut'},4.0)
+      .to(pathOne,{filter:'blur(0px)',duration:1.55,stagger:.22,ease:'sine.inOut'},5.25)
       .to('.wash-a',{xPercent:-12,yPercent:14,scale:1.26,rotation:-3,duration:7},5.6)
       .to('.wash-b',{xPercent:14,yPercent:-13,scale:1.13,rotation:3.2,autoAlpha:.76,duration:7},5.6)
       .to('.wash-c',{xPercent:-13,yPercent:-11,scale:1.22,rotation:-2.5,autoAlpha:.68,duration:7},5.6)
       .to('.wash-d',{xPercent:11,yPercent:-9,scale:1.3,rotation:-14,autoAlpha:.5,duration:7},5.6)
-      .to(pathTwo,{filter:'blur(4.6px)',duration:1.35,stagger:.18,ease:'sine.inOut'},10.5)
-      .to(pathTwo,{filter:'blur(0px)',duration:1.6,stagger:.18,ease:'sine.inOut'},11.8)
+      .to(pathTwo,{filter:'blur(4.6px)',duration:1.35,stagger:.22,ease:'sine.inOut'},10.5)
+      .to(pathTwo,{filter:'blur(0px)',duration:1.6,stagger:.22,ease:'sine.inOut'},11.8)
       .to('.wash-a',{xPercent:4,yPercent:-4,scale:1.13,rotation:.5,duration:7.4},12.6)
       .to('.wash-b',{xPercent:-3,yPercent:5,scale:1.14,rotation:-.4,autoAlpha:.94,duration:7.4},12.6)
       .to('.wash-c',{xPercent:2,yPercent:3,scale:1.08,rotation:.3,autoAlpha:.82,duration:7.4},12.6)
