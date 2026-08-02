@@ -868,7 +868,8 @@
         gsap.set(".stream-a", { xPercent: 0, yPercent: 0, scaleX: 1, scaleY: 1, rotation: 0, autoAlpha: 1 });
         gsap.set(".stream-b", { xPercent: 0, yPercent: 0, scaleX: 1, scaleY: 1, rotation: 0, autoAlpha: 1 });
         gsap.set(".stream-c", { xPercent: 0, yPercent: 0, scaleX: 1, scaleY: 1, rotation: 0, autoAlpha: 1 });
-        gsap.set(".wave-wash", { xPercent: 0, yPercent: 58, scaleX: .86, scaleY: .72, rotation: 0, autoAlpha: 0 });
+        // Match the welcome screen exactly so Begin never causes a background jump.
+        gsap.set(".wave-wash", { xPercent: 0, yPercent: 0, scaleX: 1, scaleY: 1, rotation: 0, autoAlpha: 1 });
         gsap.set(".pearl-light", { attr: { "stop-color": "#fff4f0", "stop-opacity": .9 } });
         gsap.set(".pearl-mid", { attr: { "stop-color": "#f7d7da", "stop-opacity": .56 } });
         gsap.set(".rose-mid", { attr: { "stop-color": "#e68fa8", "stop-opacity": .7 } });
@@ -1008,7 +1009,7 @@
           .to(".stream-a", { xPercent: 0, yPercent: 0, scaleX: 1, scaleY: 1, rotation: 0, autoAlpha: 1, duration: 5 }, 15)
           .to(".stream-b", { xPercent: 0, yPercent: 0, scaleX: 1, scaleY: 1, rotation: 0, autoAlpha: 1, duration: 5 }, 15)
           .to(".stream-c", { xPercent: 0, yPercent: 0, scaleX: 1, scaleY: 1, rotation: 0, autoAlpha: 1, duration: 5 }, 15)
-          .to(".wave-wash", { yPercent: 58, scaleX: .86, scaleY: .72, rotation: 0, autoAlpha: 0, duration: 5, ease: "power1.inOut" }, 15)
+          .to(".wave-wash", { yPercent: 0, scaleX: 1, scaleY: 1, rotation: 0, autoAlpha: 1, duration: 5, ease: "power1.inOut" }, 15)
           .to("#wave-displace feDisplacementMap", { attr: { scale: 18 }, duration: 5 }, 15)
           .to("#wave-displace feTurbulence", { attr: { baseFrequency: "0.012 0.027" }, duration: 5 }, 15)
           .to("#flow-displace feDisplacementMap", { attr: { scale: 13 }, duration: 5 }, 15)
