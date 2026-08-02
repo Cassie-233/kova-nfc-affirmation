@@ -13,8 +13,12 @@
     body{color:#eef0ed;font-family:"Avenir Next",Avenir,"Helvetica Neue",sans-serif}
     button{font:inherit}
     .screen{position:relative;isolation:isolate;width:100vw;height:100svh;min-height:620px;overflow:hidden;background:#090b0c}
-    .base,.wash-field,.wash,.tone,.mineral,.grain,.shade{position:absolute;inset:0;pointer-events:none}
+    .base,.fluid-field,.fluid-texture,.tone,.mineral,.grain,.shade{position:absolute;inset:0;pointer-events:none}
     .base{z-index:-6;background:#1d2528}
+    .fluid-field{z-index:-5;inset:-5%;overflow:hidden;background:#080b0d}
+    .fluid-texture{inset:-4%;background-position:center;background-size:cover;will-change:transform,opacity}
+    .flow-a{background-image:url("assets/obsidian-flow-a.webp");opacity:1}
+    .flow-b{background-image:url("assets/obsidian-flow-b.webp");opacity:0}
     .wash-field{z-index:-5;inset:-10%;overflow:hidden}
     .wash{inset:-8%;will-change:transform,opacity;background-repeat:no-repeat}
     .wash-a{transform:scale(1.08);background:radial-gradient(ellipse 68% 58% at 14% 12%,rgba(244,246,243,.98) 0%,rgba(183,190,191,.76) 22%,rgba(75,84,87,.3) 43%,transparent 66%)}
@@ -64,7 +68,7 @@
 <body>
 <main class="screen">
   <div class="base" aria-hidden="true"></div>
-  <div class="wash-field" aria-hidden="true"><div class="wash wash-b"></div><div class="wash wash-e"></div><div class="wash wash-a"></div><div class="wash wash-c"></div><div class="wash wash-d"></div><div class="wash wash-f"></div></div>
+  <div class="fluid-field" aria-hidden="true"><div class="fluid-texture flow-a"></div><div class="fluid-texture flow-b"></div></div>
   <div class="tone tone-deep" aria-hidden="true"></div><div class="tone tone-pearl" aria-hidden="true"></div>
   <svg class="mineral" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
     <defs>
@@ -118,15 +122,11 @@
   function finish(){if(ending)return;ending=true;clearInterval(timer);clearInterval(melodyTimer);fade(.0001,.8);scene?.kill();scene=gsap.timeline().to([ritual,'.ritual-copy'],{autoAlpha:0,duration:.65}).set(ritual,{visibility:'hidden'}).set(complete,{visibility:'visible',autoAlpha:1}).fromTo('.complete-inner',{autoAlpha:0,y:12,filter:'blur(6px)'},{autoAlpha:1,y:0,filter:'blur(0px)',duration:1,ease:'power2.out'});complete.setAttribute('aria-hidden','false')}
   function build(){
     master?.kill();
-    gsap.killTweensOf(['.wash','.tone','.type-char']);
+    gsap.killTweensOf(['.fluid-texture','.tone','.type-char']);
     gsap.set('.mineral',{scale:1.04,rotation:0});
     gsap.set('.sheet',{xPercent:0,yPercent:0,scale:1,rotation:0,autoAlpha:1});
-    gsap.set('.wash-a',{xPercent:0,yPercent:0,scale:1.08,autoAlpha:1});
-    gsap.set('.wash-b',{xPercent:0,yPercent:0,scale:1.1,autoAlpha:.92});
-    gsap.set('.wash-c',{xPercent:0,yPercent:0,scale:1.06,autoAlpha:.72});
-    gsap.set('.wash-d',{xPercent:0,yPercent:0,scale:1.08,autoAlpha:.64});
-    gsap.set('.wash-e',{xPercent:0,yPercent:0,scale:1.08,autoAlpha:.48});
-    gsap.set('.wash-f',{xPercent:0,yPercent:0,scale:1.06,autoAlpha:.4});
+    gsap.set('.flow-a',{xPercent:0,yPercent:0,scale:1.06,autoAlpha:1});
+    gsap.set('.flow-b',{xPercent:-3,yPercent:4,scale:1.12,autoAlpha:0});
     gsap.set('.tone-deep',{autoAlpha:.02});
     gsap.set('.tone-pearl',{autoAlpha:.08});
     gsap.set('.type-char',{autoAlpha:0,filter:'blur(7px)'});
@@ -134,30 +134,18 @@
     const pathOne=[0,2,7,3,8,12,4,9,13,5,10,14,6,11,15,16].map(i=>chars[i]).filter(Boolean);
     master=gsap.timeline({paused:true,defaults:{ease:'sine.inOut'},onUpdate:update,onComplete:finish})
       .to('.type-char',{autoAlpha:1,filter:'blur(0px)',duration:reduce?0:.3,stagger:reduce?0:.11,ease:'power1.out'},.35)
-      .to('.wash-a',{xPercent:11,yPercent:8,scale:1.22,autoAlpha:.76,duration:5.6},0)
-      .to('.wash-b',{xPercent:-13,yPercent:10,scale:1.2,autoAlpha:1,duration:5.6},0)
-      .to('.wash-c',{xPercent:12,yPercent:-9,scale:1.18,autoAlpha:.94,duration:5.6},0)
-      .to('.wash-d',{xPercent:-10,yPercent:12,scale:1.24,autoAlpha:.84,duration:5.6},0)
-      .to('.wash-e',{xPercent:-9,yPercent:-12,scale:1.18,autoAlpha:.7,duration:5.6},0)
-      .to('.wash-f',{xPercent:8,yPercent:-14,scale:1.25,autoAlpha:.62,duration:5.6},0)
+      .to('.flow-a',{xPercent:3,yPercent:-4,scale:1.14,autoAlpha:.74,duration:6.2,ease:'sine.inOut'},0)
+      .to('.flow-b',{xPercent:1,yPercent:1,scale:1.06,autoAlpha:.68,duration:6.2,ease:'power1.inOut'},0)
       .to('.tone-deep',{autoAlpha:.08,duration:5.6},0)
       .to('.tone-pearl',{autoAlpha:.14,duration:5.6},0)
       .to(pathOne,{filter:'blur(5px)',duration:1.3,stagger:.22,ease:'sine.inOut'},4.0)
       .to(pathOne,{filter:'blur(0px)',duration:1.55,stagger:.22,ease:'sine.inOut'},5.25)
-      .to('.wash-a',{xPercent:-15,yPercent:18,scale:1.3,autoAlpha:1,duration:7},5.6)
-      .to('.wash-b',{xPercent:15,yPercent:-16,scale:1.16,autoAlpha:.72,duration:7},5.6)
-      .to('.wash-c',{xPercent:-14,yPercent:-13,scale:1.28,autoAlpha:.58,duration:7},5.6)
-      .to('.wash-d',{xPercent:13,yPercent:-12,scale:1.32,autoAlpha:.46,duration:7},5.6)
-      .to('.wash-e',{xPercent:14,yPercent:14,scale:1.3,autoAlpha:.9,duration:7},5.6)
-      .to('.wash-f',{xPercent:-13,yPercent:16,scale:1.14,autoAlpha:.3,duration:7},5.6)
+      .to('.flow-a',{xPercent:-5,yPercent:6,scale:1.2,autoAlpha:.12,duration:6.8,ease:'power1.inOut'},6.2)
+      .to('.flow-b',{xPercent:4,yPercent:-5,scale:1.15,autoAlpha:1,duration:6.8,ease:'sine.inOut'},6.2)
       .to('.tone-deep',{autoAlpha:.01,duration:7},5.6)
       .to('.tone-pearl',{autoAlpha:.2,duration:7},5.6)
-      .to('.wash-a',{xPercent:5,yPercent:-8,scale:1.16,autoAlpha:.86,duration:7.4},12.6)
-      .to('.wash-b',{xPercent:-6,yPercent:7,scale:1.24,autoAlpha:1,duration:7.4},12.6)
-      .to('.wash-c',{xPercent:7,yPercent:9,scale:1.16,autoAlpha:.86,duration:7.4},12.6)
-      .to('.wash-d',{xPercent:-7,yPercent:-8,scale:1.18,autoAlpha:.72,duration:7.4},12.6)
-      .to('.wash-e',{xPercent:-8,yPercent:6,scale:1.16,autoAlpha:.56,duration:7.4},12.6)
-      .to('.wash-f',{xPercent:9,yPercent:10,scale:1.22,autoAlpha:.54,duration:7.4},12.6)
+      .to('.flow-a',{xPercent:2,yPercent:-3,scale:1.1,autoAlpha:.88,duration:7,ease:'sine.inOut'},13)
+      .to('.flow-b',{xPercent:-3,yPercent:5,scale:1.22,autoAlpha:.24,duration:7,ease:'power1.inOut'},13)
       .to('.tone-deep',{autoAlpha:.04,duration:7.4},12.6)
       .to('.tone-pearl',{autoAlpha:.1,duration:7.4},12.6)
       .to('.sheet',{xPercent:0,yPercent:0,scale:1,rotation:0,duration:7},13);
