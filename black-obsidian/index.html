@@ -14,8 +14,8 @@
     button{font:inherit}
     .screen{position:relative;isolation:isolate;width:100vw;height:100svh;min-height:620px;overflow:hidden;background:#090b0c}
     .base,.fluid-field,.fluid-texture,.tone,.mineral,.grain,.shade{position:absolute;inset:0;pointer-events:none}
-    .base{z-index:-6;background:#1d2528}
-    .fluid-field{z-index:-5;inset:-5%;overflow:hidden;background:#080b0d}
+    .base{z-index:0;background:#1d2528}
+    .fluid-field{z-index:1;inset:-5%;overflow:hidden;background:#080b0d}
     .fluid-texture{inset:-4%;background-position:center;background-size:cover;will-change:transform,opacity}
     .flow-a{background-image:url("assets/obsidian-flow-a.webp");opacity:1}
     .flow-b{background-image:url("assets/obsidian-flow-b.webp");opacity:0}
@@ -27,7 +27,7 @@
     .wash-d{transform:scale(1.08);background:radial-gradient(ellipse 88% 40% at 88% 58%,rgba(184,190,190,.5) 0%,rgba(104,112,114,.34) 29%,rgba(30,37,40,.18) 55%,transparent 79%),radial-gradient(ellipse 82% 38% at 15% 34%,rgba(9,13,14,.76) 0%,rgba(42,49,52,.36) 48%,transparent 79%);opacity:.64}
     .wash-e{transform:scale(1.08);background:radial-gradient(ellipse 68% 58% at 92% 88%,rgba(6,9,10,.86) 0%,rgba(34,41,44,.48) 43%,rgba(103,111,113,.12) 67%,transparent 82%);opacity:.48}
     .wash-f{transform:scale(1.06);background:radial-gradient(ellipse 70% 38% at 72% 58%,rgba(222,226,223,.66) 0%,rgba(124,132,134,.46) 25%,rgba(28,35,38,.16) 49%,transparent 70%);opacity:.52}
-    .tone{z-index:-3;will-change:opacity}
+    .tone{z-index:2;will-change:opacity}
     .tone-deep{background:#050708;opacity:.02}
     .tone-pearl{background:#bac0c0;mix-blend-mode:screen;opacity:.08}
     .mineral{display:none}
@@ -35,7 +35,7 @@
     .sheet path{filter:url(#soft-edge) blur(3px)}
     .seam{fill:none;stroke:#d9dcda;stroke-width:.22;stroke-opacity:.38;filter:url(#seam-glow);vector-effect:non-scaling-stroke}
     .grain{z-index:7;opacity:.28;mix-blend-mode:soft-light;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E")}
-    .shade{z-index:-2;background:radial-gradient(ellipse at 50% 47%,transparent 26%,rgba(0,0,0,.06) 68%,rgba(0,0,0,.2) 118%)}
+    .shade{z-index:2;background:radial-gradient(ellipse at 50% 47%,transparent 26%,rgba(0,0,0,.06) 68%,rgba(0,0,0,.2) 118%)}
     .intro,.ritual,.complete{position:absolute;inset:0}
     .intro{z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:88px 26px 30px;text-align:center}
     .brand-lockup{position:fixed;z-index:9;top:max(25px,calc(env(safe-area-inset-top) + 10px));left:50%;transform:translateX(-50%);text-align:center;white-space:nowrap}
