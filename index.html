@@ -239,13 +239,23 @@
 
     .brand {
       position: absolute;
-      top: max(30px, env(safe-area-inset-top));
+      top: max(66px, calc(env(safe-area-inset-top) + 50px));
       margin: 0;
       font-size: 9px;
       font-weight: 500;
       letter-spacing: .3em;
       text-transform: uppercase;
       opacity: .82;
+    }
+
+    .page-logo {
+      position: absolute;
+      top: max(25px, calc(env(safe-area-inset-top) + 10px));
+      left: 50%;
+      width: 58px;
+      height: auto;
+      transform: translateX(-50%);
+      opacity: .9;
     }
 
     .intro-copy {
@@ -628,6 +638,7 @@
     <div class="grain" aria-hidden="true"></div>
 
     <section class="intro" aria-labelledby="intro-title">
+      <img class="page-logo page-logo--intro" src="KOVA.svg" alt="KOVA" />
       <p class="brand">Rose Quartz Ritual</p>
       <div class="intro-copy">
         <p class="eyebrow">A moment to return to yourself</p>
@@ -676,6 +687,7 @@
     </section>
 
     <section class="complete" aria-live="polite" aria-hidden="true">
+      <img class="page-logo" src="KOVA.svg" alt="KOVA" />
       <div class="complete-inner">
         <h2>Let this feeling<br />stay with you.</h2>
         <p>Carry it gently into your day.</p>
@@ -1147,7 +1159,7 @@
             duration: reduceMotion ? 0 : .65,
             ease: "power2.in"
           })
-          .to([".brand", ".begin-wrap"], {
+          .to([".brand", ".begin-wrap", ".page-logo--intro"], {
             autoAlpha: 0,
             duration: reduceMotion ? 0 : .5,
             ease: "power2.in"
@@ -1168,7 +1180,7 @@
         gsap.set(complete, { autoAlpha: 0 });
         gsap.set(ritual, { autoAlpha: 0 });
         gsap.set(intro, { autoAlpha: 1 });
-        gsap.set([".intro-copy", ".brand", ".begin-wrap"], {
+        gsap.set([".intro-copy", ".brand", ".begin-wrap", ".page-logo--intro"], {
           clearProps: "all"
         });
         intro.setAttribute("aria-hidden", "false");
