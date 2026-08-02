@@ -14,8 +14,8 @@
     .screen{position:relative;isolation:isolate;width:100vw;height:100svh;min-height:620px;overflow:hidden;background:#090b0c}
     .base,.wash-field,.wash,.mineral,.grain,.shade{position:absolute;inset:0;pointer-events:none}
     .base{z-index:-6;background:linear-gradient(154deg,#737b7e 0%,#171b1d 27%,#525a5d 52%,#090b0c 76%,#626a6d 100%)}
-    .wash-field{z-index:-5;inset:-28%;overflow:hidden;transform:scale(1.08)}
-    .wash{inset:-12%;will-change:transform,opacity;background-repeat:no-repeat}
+    .wash-field{z-index:-5;inset:-24%;overflow:hidden;transform:scale(1.08)}
+    .wash{inset:-50%;will-change:transform,opacity;background-repeat:no-repeat}
     .wash-a{transform:scale(1.05);background:radial-gradient(ellipse 66% 58% at 17% 16%,rgba(242,243,240,.88) 0%,rgba(180,186,187,.62) 25%,rgba(84,91,94,.2) 52%,transparent 72%),radial-gradient(ellipse 52% 72% at 81% 81%,rgba(190,195,195,.54) 0%,rgba(70,77,80,.2) 50%,transparent 73%)}
     .wash-b{transform:scale(1.08);opacity:.94;background:radial-gradient(ellipse 58% 50% at 86% 18%,rgba(8,11,12,.94) 0%,rgba(45,51,54,.66) 31%,rgba(123,130,132,.16) 57%,transparent 76%),radial-gradient(ellipse 70% 47% at 27% 87%,rgba(225,227,224,.68) 0%,rgba(130,136,138,.32) 35%,rgba(31,36,38,.12) 64%,transparent 80%)}
     .wash-c{transform:scale(1);background:radial-gradient(ellipse 48% 63% at 49% 51%,rgba(218,221,219,.5) 0%,rgba(105,112,115,.25) 39%,transparent 69%),linear-gradient(132deg,rgba(239,240,237,.18),transparent 34%,rgba(5,8,9,.42) 61%,rgba(194,199,198,.2));mix-blend-mode:screen;opacity:.82}
@@ -120,14 +120,14 @@
     const pathTwo=[16,11,15,6,10,14,5,9,13,4,8,12,3,7,2,0].map(i=>chars[i]).filter(Boolean);
     master=gsap.timeline({paused:true,defaults:{ease:'sine.inOut'},onUpdate:update,onComplete:finish})
       .to('.type-char',{autoAlpha:1,filter:'blur(0px)',duration:reduce?0:.3,stagger:reduce?0:.11,ease:'power1.out'},.35)
-      .to('.wash-a',{xPercent:30,yPercent:-22,scale:1.3,rotation:3.2,duration:5.6},0)
-      .to('.wash-b',{xPercent:-28,yPercent:25,scale:1.34,rotation:-3.6,autoAlpha:1,duration:5.6},0)
-      .to('.wash-c',{xPercent:20,yPercent:23,scale:1.27,rotation:2.5,autoAlpha:1,duration:5.6},0)
+      .to('.wash-a',{xPercent:21,yPercent:-17,scale:1.23,rotation:3.2,duration:5.6},0)
+      .to('.wash-b',{xPercent:-20,yPercent:18,scale:1.26,rotation:-3.6,autoAlpha:1,duration:5.6},0)
+      .to('.wash-c',{xPercent:16,yPercent:17,scale:1.2,rotation:2.5,autoAlpha:1,duration:5.6},0)
       .to(pathOne,{filter:'blur(5.5px)',duration:.68,stagger:.15,ease:'sine.inOut'},4.0)
       .to(pathOne,{filter:'blur(0px)',duration:.95,stagger:.15,ease:'sine.inOut'},4.72)
-      .to('.wash-a',{xPercent:-24,yPercent:28,scale:1.42,rotation:-4,duration:7},5.6)
-      .to('.wash-b',{xPercent:31,yPercent:-27,scale:1.2,rotation:4.1,autoAlpha:.76,duration:7},5.6)
-      .to('.wash-c',{xPercent:-25,yPercent:-20,scale:1.38,rotation:-3.1,autoAlpha:.68,duration:7},5.6)
+      .to('.wash-a',{xPercent:-18,yPercent:20,scale:1.32,rotation:-4,duration:7},5.6)
+      .to('.wash-b',{xPercent:22,yPercent:-19,scale:1.16,rotation:4.1,autoAlpha:.76,duration:7},5.6)
+      .to('.wash-c',{xPercent:-19,yPercent:-16,scale:1.28,rotation:-3.1,autoAlpha:.68,duration:7},5.6)
       .to(pathTwo,{filter:'blur(4.8px)',duration:.72,stagger:.16,ease:'sine.inOut'},11.0)
       .to(pathTwo,{filter:'blur(0px)',duration:1,stagger:.16,ease:'sine.inOut'},11.78)
       .to('.wash-a',{xPercent:4,yPercent:-4,scale:1.13,rotation:.5,duration:7.4},12.6)
