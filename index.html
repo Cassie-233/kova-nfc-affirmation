@@ -860,8 +860,11 @@
         master?.kill();
         gsap.killTweensOf([".field", ".flow-art", ".stream", ".wave-wash", ".glow", ".orb", ".ritual .affirmation", ".type-char", ".brush-copy", ".sharp-copy"]);
         const firstForward = Math.random() > .5;
+        const secondForward = Math.random() > .5;
         const brushAStart = `${firstForward ? 100 : 0}% ${gsap.utils.random(35, 65)}%`;
         const brushAEnd = `${firstForward ? 0 : 100}% ${gsap.utils.random(35, 65)}%`;
+        const brushBStart = `${secondForward ? 100 : 0}% ${gsap.utils.random(32, 68)}%`;
+        const brushBEnd = `${secondForward ? 0 : 100}% ${gsap.utils.random(32, 68)}%`;
 
         gsap.set(complete, { autoAlpha: 0 });
         gsap.set(".complete-inner", { autoAlpha: 0, y: 14, filter: "blur(8px)" });
@@ -956,6 +959,31 @@
             duration: .45,
             ease: "sine.in"
           }, 6.45)
+          .set(".brush-copy", {
+            webkitMaskPosition: brushBStart,
+            maskPosition: brushBStart,
+            filter: "blur(2.6px)"
+          }, 11.1)
+          .set(".sharp-copy", {
+            webkitMaskPosition: brushBStart,
+            maskPosition: brushBStart
+          }, 11.1)
+          .to(".brush-copy", {
+            autoAlpha: .76,
+            duration: .35,
+            ease: "sine.out"
+          }, 11.1)
+          .to([".brush-copy", ".sharp-copy"], {
+            webkitMaskPosition: brushBEnd,
+            maskPosition: brushBEnd,
+            duration: 4.4,
+            ease: "sine.inOut"
+          }, 11.1)
+          .to(".brush-copy", {
+            autoAlpha: 0,
+            duration: .45,
+            ease: "sine.in"
+          }, 15.05)
           .to(".flow-art", { yPercent: -1.5, scale: 1.16, rotation: -1.5, duration: 5 }, 0)
           .to(".stream-a", { xPercent: 6, yPercent: -5, scaleX: 1.22, scaleY: 1.08, rotation: 2.1, autoAlpha: .78, duration: 5 }, 0)
           .to(".stream-b", { xPercent: -5, yPercent: 6, scaleX: .84, scaleY: .94, rotation: -2, autoAlpha: 1, duration: 5 }, 0)
