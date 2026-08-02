@@ -80,18 +80,25 @@
       --wash-c: #984e67;
       inset: -10%;
       z-index: -8;
-      background:
-        radial-gradient(circle at var(--wash-a-x) var(--wash-a-y), var(--wash-a) 0 8%, rgba(255,238,232,.58) 21%, transparent 39%),
-        radial-gradient(circle at var(--wash-b-x) var(--wash-b-y), var(--wash-b) 0 10%, rgba(225,117,149,.36) 29%, transparent 49%),
-        radial-gradient(circle at var(--wash-c-x) var(--wash-c-y), var(--wash-c) 0 9%, rgba(124,54,78,.31) 27%, transparent 47%),
-        radial-gradient(circle at 78% 78%, #f7c5c7 0 10%, rgba(247,197,199,.31) 31%, transparent 49%),
-        radial-gradient(circle at 50% 48%, #f2b7bf 0 14%, #cf8095 54%, #efaeb8 100%);
-      filter: blur(18px) saturate(1.08);
-      transform: scale(1.08);
+      background-image:
+        linear-gradient(132deg, var(--wash-a) 0%, rgba(255,242,236,.72) 28%, transparent 67%),
+        linear-gradient(28deg, var(--wash-c) 0%, rgba(137,63,88,.42) 30%, transparent 68%),
+        linear-gradient(218deg, var(--wash-b) 0%, rgba(230,132,157,.4) 34%, transparent 72%),
+        linear-gradient(154deg, #f8d9d8 0%, #d88fa0 48%, #f3b8bf 100%);
+      background-size: 165% 165%, 178% 178%, 162% 162%, 100% 100%;
+      background-position:
+        var(--wash-a-x) var(--wash-a-y),
+        var(--wash-c-x) var(--wash-c-y),
+        var(--wash-b-x) var(--wash-b-y),
+        0 0;
+      background-repeat: no-repeat;
+      filter: blur(25px) saturate(1.03);
+      transform: scale(1.06);
       will-change: transform, filter;
     }
 
     .orb {
+      display: none;
       z-index: -7;
       width: 76vw;
       height: 68vw;
@@ -156,6 +163,7 @@
     }
 
     .glow {
+      display: none;
       inset: 16% -44% 2%;
       z-index: -6;
       background:
@@ -172,9 +180,7 @@
     .shade {
       inset: 0;
       z-index: -5;
-      background:
-        linear-gradient(180deg, rgba(89,43,58,.06), transparent 26%, transparent 72%, rgba(89,43,58,.13)),
-        radial-gradient(ellipse at center, transparent 45%, rgba(89,43,58,.09));
+      background: linear-gradient(180deg, rgba(89,43,58,.035), transparent 28%, transparent 74%, rgba(89,43,58,.08));
     }
 
     .grain {
