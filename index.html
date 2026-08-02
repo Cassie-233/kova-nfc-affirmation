@@ -557,18 +557,18 @@
           <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G" />
         </filter>
         <linearGradient id="pearl-flow" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#fff4f0" stop-opacity=".9" />
-          <stop offset=".55" stop-color="#f7d7da" stop-opacity=".56" />
+          <stop class="pearl-light" offset="0" stop-color="#fff4f0" stop-opacity=".9" />
+          <stop class="pearl-mid" offset=".55" stop-color="#f7d7da" stop-opacity=".56" />
           <stop offset="1" stop-color="#edbdc5" stop-opacity=".08" />
         </linearGradient>
         <linearGradient id="rose-flow" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stop-color="#d4698d" stop-opacity=".18" />
-          <stop offset=".5" stop-color="#e68fa8" stop-opacity=".7" />
+          <stop class="rose-mid" offset=".5" stop-color="#e68fa8" stop-opacity=".7" />
           <stop offset="1" stop-color="#f3b5c0" stop-opacity=".16" />
         </linearGradient>
         <linearGradient id="berry-flow" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stop-color="#a94e71" stop-opacity=".12" />
-          <stop offset=".54" stop-color="#ba5f7e" stop-opacity=".48" />
+          <stop class="berry-mid" offset=".54" stop-color="#ba5f7e" stop-opacity=".48" />
           <stop offset="1" stop-color="#d98da3" stop-opacity=".08" />
         </linearGradient>
       </defs>
@@ -834,7 +834,16 @@
         gsap.set(".stream-a", { xPercent: 0, scaleX: 1, rotation: 0, autoAlpha: 1 });
         gsap.set(".stream-b", { xPercent: 0, scaleX: 1, rotation: 0, autoAlpha: 1 });
         gsap.set(".stream-c", { xPercent: 0, scaleX: 1, rotation: 0, autoAlpha: 1 });
+        gsap.set(".pearl-light", { attr: { "stop-color": "#fff4f0", "stop-opacity": .9 } });
+        gsap.set(".pearl-mid", { attr: { "stop-color": "#f7d7da", "stop-opacity": .56 } });
+        gsap.set(".rose-mid", { attr: { "stop-color": "#e68fa8", "stop-opacity": .7 } });
+        gsap.set(".berry-mid", { attr: { "stop-color": "#ba5f7e", "stop-opacity": .48 } });
+        gsap.set("#flow-displace feTurbulence", { attr: { baseFrequency: "0.008 0.018" } });
+        gsap.set("#flow-displace feDisplacementMap", { attr: { scale: 13 } });
         gsap.set(".field", {
+          scale: 1.03,
+          rotation: 0,
+          filter: "saturate(1.02) brightness(1)",
           "--wash-a-x": "13%",
           "--wash-a-y": "12%",
           "--wash-b-x": "84%",
@@ -925,26 +934,42 @@
             duration: .45,
             ease: "sine.in"
           }, 15.05)
-          .to(".flow-art", { scale: 1.12, rotation: -.8, duration: 5 }, 0)
-          .to(".stream-a", { scaleX: 1.16, rotation: 1.2, autoAlpha: .88, duration: 5 }, 0)
-          .to(".stream-b", { scaleX: .9, rotation: -1.1, autoAlpha: .94, duration: 5 }, 0)
-          .to(".stream-c", { scaleX: 1.11, rotation: .7, autoAlpha: .82, duration: 5 }, 0)
-          .to("#flow-displace feDisplacementMap", { attr: { scale: 18 }, duration: 5 }, 0)
-          .to(".flow-art", { scale: 1.07, rotation: .65, duration: 5 }, 5)
-          .to(".stream-a", { scaleX: .91, rotation: -1, autoAlpha: .96, duration: 5 }, 5)
-          .to(".stream-b", { scaleX: 1.15, rotation: .9, autoAlpha: .82, duration: 5 }, 5)
-          .to(".stream-c", { scaleX: .93, rotation: -.8, autoAlpha: .94, duration: 5 }, 5)
-          .to("#flow-displace feDisplacementMap", { attr: { scale: 10 }, duration: 5 }, 5)
-          .to(".flow-art", { scale: 1.12, rotation: -.55, duration: 5 }, 10)
-          .to(".stream-a", { scaleX: 1.12, rotation: .8, autoAlpha: .86, duration: 5 }, 10)
-          .to(".stream-b", { scaleX: .92, rotation: -1, autoAlpha: .96, duration: 5 }, 10)
-          .to(".stream-c", { scaleX: 1.12, rotation: .75, autoAlpha: .84, duration: 5 }, 10)
-          .to("#flow-displace feDisplacementMap", { attr: { scale: 17 }, duration: 5 }, 10)
+          .to(".flow-art", { scale: 1.16, rotation: -1.5, duration: 5 }, 0)
+          .to(".stream-a", { xPercent: 7, scaleX: 1.32, rotation: 2.4, autoAlpha: .78, duration: 5 }, 0)
+          .to(".stream-b", { xPercent: -6, scaleX: .76, rotation: -2.2, autoAlpha: 1, duration: 5 }, 0)
+          .to(".stream-c", { xPercent: 5, scaleX: 1.26, rotation: 1.7, autoAlpha: .7, duration: 5 }, 0)
+          .to("#flow-displace feDisplacementMap", { attr: { scale: 25 }, duration: 5 }, 0)
+          .to("#flow-displace feTurbulence", { attr: { baseFrequency: "0.012 0.026" }, duration: 5 }, 0)
+          .to(".pearl-light", { attr: { "stop-color": "#ffe1e3", "stop-opacity": .72 }, duration: 5 }, 0)
+          .to(".rose-mid", { attr: { "stop-color": "#c94f7d", "stop-opacity": .88 }, duration: 5 }, 0)
+          .to(".berry-mid", { attr: { "stop-color": "#8f355d", "stop-opacity": .64 }, duration: 5 }, 0)
+          .to(".flow-art", { scale: 1.05, rotation: 1.25, duration: 5 }, 5)
+          .to(".stream-a", { xPercent: -5, scaleX: .72, rotation: -2, autoAlpha: 1, duration: 5 }, 5)
+          .to(".stream-b", { xPercent: 8, scaleX: 1.34, rotation: 2.1, autoAlpha: .7, duration: 5 }, 5)
+          .to(".stream-c", { xPercent: -7, scaleX: .78, rotation: -1.8, autoAlpha: 1, duration: 5 }, 5)
+          .to("#flow-displace feDisplacementMap", { attr: { scale: 7 }, duration: 5 }, 5)
+          .to("#flow-displace feTurbulence", { attr: { baseFrequency: "0.006 0.014" }, duration: 5 }, 5)
+          .to(".pearl-light", { attr: { "stop-color": "#fff9f5", "stop-opacity": .96 }, duration: 5 }, 5)
+          .to(".rose-mid", { attr: { "stop-color": "#f3a7b9", "stop-opacity": .58 }, duration: 5 }, 5)
+          .to(".berry-mid", { attr: { "stop-color": "#c87891", "stop-opacity": .34 }, duration: 5 }, 5)
+          .to(".flow-art", { scale: 1.17, rotation: -1.1, duration: 5 }, 10)
+          .to(".stream-a", { xPercent: 6, scaleX: 1.27, rotation: 1.8, autoAlpha: .76, duration: 5 }, 10)
+          .to(".stream-b", { xPercent: -7, scaleX: .8, rotation: -2.3, autoAlpha: 1, duration: 5 }, 10)
+          .to(".stream-c", { xPercent: 8, scaleX: 1.31, rotation: 2, autoAlpha: .72, duration: 5 }, 10)
+          .to("#flow-displace feDisplacementMap", { attr: { scale: 23 }, duration: 5 }, 10)
+          .to("#flow-displace feTurbulence", { attr: { baseFrequency: "0.011 0.024" }, duration: 5 }, 10)
+          .to(".pearl-light", { attr: { "stop-color": "#fbd9df", "stop-opacity": .7 }, duration: 5 }, 10)
+          .to(".rose-mid", { attr: { "stop-color": "#cf5a82", "stop-opacity": .9 }, duration: 5 }, 10)
+          .to(".berry-mid", { attr: { "stop-color": "#963b62", "stop-opacity": .66 }, duration: 5 }, 10)
           .to(".flow-art", { scale: 1.08, rotation: 0, duration: 5 }, 15)
-          .to(".stream-a", { scaleX: 1, rotation: 0, autoAlpha: 1, duration: 5 }, 15)
-          .to(".stream-b", { scaleX: 1, rotation: 0, autoAlpha: 1, duration: 5 }, 15)
-          .to(".stream-c", { scaleX: 1, rotation: 0, autoAlpha: 1, duration: 5 }, 15)
+          .to(".stream-a", { xPercent: 0, scaleX: 1, rotation: 0, autoAlpha: 1, duration: 5 }, 15)
+          .to(".stream-b", { xPercent: 0, scaleX: 1, rotation: 0, autoAlpha: 1, duration: 5 }, 15)
+          .to(".stream-c", { xPercent: 0, scaleX: 1, rotation: 0, autoAlpha: 1, duration: 5 }, 15)
           .to("#flow-displace feDisplacementMap", { attr: { scale: 13 }, duration: 5 }, 15)
+          .to("#flow-displace feTurbulence", { attr: { baseFrequency: "0.008 0.018" }, duration: 5 }, 15)
+          .to(".pearl-light", { attr: { "stop-color": "#fff4f0", "stop-opacity": .9 }, duration: 5 }, 15)
+          .to(".rose-mid", { attr: { "stop-color": "#e68fa8", "stop-opacity": .7 }, duration: 5 }, 15)
+          .to(".berry-mid", { attr: { "stop-color": "#ba5f7e", "stop-opacity": .48 }, duration: 5 }, 15)
           .to(".field", {
             "--wash-a-x": "36%",
             "--wash-a-y": "23%",
@@ -955,6 +980,7 @@
             "--wash-a": "#ffe1dc",
             "--wash-b": "#d95f88",
             "--wash-c": "#713149",
+            filter: "saturate(1.2) brightness(.9)",
             duration: 5
           }, 0)
           .to(".field", {
@@ -967,6 +993,7 @@
             "--wash-a": "#fff8ef",
             "--wash-b": "#f0a5b4",
             "--wash-c": "#b25d78",
+            filter: "saturate(.96) brightness(1.09)",
             duration: 5
           }, 5)
           .to(".field", {
@@ -979,6 +1006,7 @@
             "--wash-a": "#ffd5d2",
             "--wash-b": "#c94f79",
             "--wash-c": "#692b43",
+            filter: "saturate(1.24) brightness(.88)",
             duration: 5
           }, 10)
           .to(".field", {
@@ -991,6 +1019,7 @@
             "--wash-a": "#fff6ee",
             "--wash-b": "#e995aa",
             "--wash-c": "#984e67",
+            filter: "saturate(1.02) brightness(1)",
             duration: 5
           }, 15)
           .to(".field", {
@@ -1032,7 +1061,7 @@
           .to(".orb-a", { scale: 1.1, rotation: -8, autoAlpha: .7, duration: 5 }, 10)
           .to(".orb-b", { scale: 1.08, rotation: 12, autoAlpha: .69, duration: 5 }, 10)
           .to(".orb-c", { scale: 1.06, rotation: -16, autoAlpha: .68, duration: 5 }, 10)
-          .to(".field", { scale: 1.13, rotation: 0, duration: 5 }, 15)
+          .to(".field", { scale: 1.03, rotation: 0, duration: 5 }, 15)
           .to(".glow", { scale: 1, rotation: -12, autoAlpha: .3, duration: 5 }, 15)
           .to(".orb-a", { scale: 1, rotation: -13, autoAlpha: .6, duration: 5 }, 15)
           .to(".orb-b", { scale: 1, rotation: 17, autoAlpha: .6, duration: 5 }, 15)
