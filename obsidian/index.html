@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#080a0b" />
+  <title>I Stand In My Truth</title>
+  <style>
+    @font-face{font-family:Dokdo;src:url("./Dokdo-Regular.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+    *{box-sizing:border-box}
+    html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#080a0b}
+    body{color:#eef0ed;font-family:"Avenir Next",Avenir,"Helvetica Neue",sans-serif}
+    button{font:inherit}
+    .screen{position:relative;isolation:isolate;width:100vw;height:100svh;min-height:620px;overflow:hidden;background:#090b0c}
+    .base,.mineral,.grain,.shade{position:absolute;inset:0;pointer-events:none}
+    .base{z-index:-5;background:linear-gradient(142deg,#060708 0%,#171a1c 42%,#08090a 75%,#24282b 120%)}
+    .mineral{z-index:-4;width:116%;height:116%;inset:-8%;overflow:visible;filter:contrast(1.03)}
+    .sheet{transform-box:fill-box;transform-origin:center;will-change:transform,opacity}
+    .sheet path{filter:url(#soft-edge)}
+    .seam{fill:none;stroke:#d9dcda;stroke-width:.22;stroke-opacity:.38;filter:url(#seam-glow);vector-effect:non-scaling-stroke}
+    .grain{z-index:7;opacity:.28;mix-blend-mode:soft-light;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E")}
+    .shade{z-index:-2;background:radial-gradient(ellipse at 50% 47%,transparent 18%,rgba(0,0,0,.12) 64%,rgba(0,0,0,.36) 115%)}
+    .intro,.ritual,.complete{position:absolute;inset:0}
+    .intro{z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:88px 26px 30px;text-align:center}
+    .brand-lockup{position:fixed;z-index:9;top:max(25px,calc(env(safe-area-inset-top) + 10px));left:50%;transform:translateX(-50%);text-align:center;white-space:nowrap}
+    .logo{display:block;width:58px;height:auto;margin:0 auto 18px;opacity:.94}
+    .ritual-name{margin:0;font-size:8px;font-weight:500;letter-spacing:.37em;text-indent:.37em;text-transform:uppercase;opacity:.68}
+    .intro-copy{width:min(84vw,390px);margin-top:-2vh}
+    .affirmation{margin:0;font-family:Dokdo,"Segoe Print","Bradley Hand",cursive;font-size:clamp(58px,17vw,84px);font-weight:400;line-height:.78;letter-spacing:.01em;text-shadow:0 4px 25px rgba(255,255,255,.08)}
+    .description{margin:34px auto 0;max-width:290px;font-family:"Iowan Old Style",Baskerville,serif;font-size:13px;font-style:italic;line-height:1.55;letter-spacing:.01em;opacity:.64}
+    .begin-wrap{position:absolute;bottom:max(35px,calc(env(safe-area-inset-bottom) + 23px));left:50%;transform:translateX(-50%)}
+    .begin{width:224px;height:58px;border:1px solid rgba(238,240,237,.5);border-radius:0;color:#eef0ed;background:rgba(10,12,13,.15);cursor:pointer;font-size:10px;font-weight:500;letter-spacing:.38em;text-indent:.38em;text-transform:uppercase}
+    .meta{margin:16px 0 0;font-size:8px;letter-spacing:.25em;opacity:.48;white-space:nowrap}
+    .ritual{z-index:4;visibility:hidden;opacity:0}
+    .ritual-center{position:absolute;top:50%;left:50%;width:min(86vw,420px);transform:translate(-50%,-51%);text-align:center}
+    .ritual-copy{position:relative;clip-path:inset(0 100% 0 0);filter:drop-shadow(0 0 10px rgba(235,239,238,.08))}
+    .scan-line{position:absolute;top:-7%;bottom:-7%;left:-14%;width:11%;opacity:0;transform:skewX(-9deg);background:linear-gradient(90deg,transparent,rgba(243,245,242,.62),transparent);filter:blur(4px);mix-blend-mode:screen;pointer-events:none}
+    .countdown{position:absolute;left:50%;bottom:max(25px,calc(env(safe-area-inset-bottom) + 16px));margin:0;transform:translateX(-50%);font-size:10px;letter-spacing:.25em;font-variant-numeric:tabular-nums}
+    .icon-button{position:absolute;display:grid;place-items:center;width:52px;height:52px;border:1px solid rgba(238,240,237,.28);border-radius:50%;color:#eef0ed;background:rgba(8,10,11,.08);cursor:pointer}
+    .icon-button svg{width:18px;height:18px}.sound{top:max(25px,calc(env(safe-area-inset-top) + 10px));right:22px}.playback{left:50%;bottom:max(55px,calc(env(safe-area-inset-bottom) + 46px));transform:translateX(-50%)}
+    .sound .slash{display:none}.sound[aria-pressed="true"] .waves{display:none}.sound[aria-pressed="true"] .slash{display:block}.play-icon{display:none}.playback[aria-pressed="true"] .pause-icon{display:none}.playback[aria-pressed="true"] .play-icon{display:block}
+    .complete{z-index:5;display:flex;align-items:center;justify-content:center;visibility:hidden;padding:28px;text-align:center;opacity:0}
+    .complete-inner{width:min(84vw,390px)}
+    .complete h2{margin:0;font-family:Dokdo,"Segoe Print",cursive;font-size:clamp(52px,15vw,76px);font-weight:400;line-height:.82}
+    .complete p{margin:28px 0 0;font-family:"Iowan Old Style",Baskerville,serif;font-size:13px;font-style:italic;opacity:.62}
+    .again{margin-top:34px;padding:12px 18px;border:0;color:#eef0ed;background:transparent;cursor:pointer;font-size:9px;letter-spacing:.28em;text-transform:uppercase}
+    @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.scan-line{display:none}}
+  </style>
+</head>
+<body>
+<main class="screen">
+  <div class="base" aria-hidden="true"></div>
+  <svg class="mineral" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <filter id="soft-edge" x="-30%" y="-30%" width="160%" height="160%">
+        <feTurbulence type="fractalNoise" baseFrequency=".011 .026" numOctaves="3" seed="14" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="B"/>
+        <feGaussianBlur stdDeviation=".5"/>
+      </filter>
+      <filter id="seam-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation=".35"/></filter>
+      <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#555b5e" stop-opacity=".5"/><stop offset=".55" stop-color="#202426" stop-opacity=".28"/><stop offset="1" stop-color="#090b0c" stop-opacity=".06"/></linearGradient>
+      <linearGradient id="g2" x1="1" y1="0" x2="0" y2="1"><stop stop-color="#81878a" stop-opacity=".25"/><stop offset=".45" stop-color="#303538" stop-opacity=".36"/><stop offset="1" stop-color="#0a0c0d" stop-opacity=".08"/></linearGradient>
+      <linearGradient id="g3" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#111415" stop-opacity=".15"/><stop offset=".62" stop-color="#656b6e" stop-opacity=".32"/><stop offset="1" stop-color="#171a1c" stop-opacity=".18"/></linearGradient>
+    </defs>
+    <g class="sheet sheet-a"><path fill="url(#g1)" d="M-18-8C8 1 10 17 29 25c17 8 15 20 1 31C14 69 22 87 48 111H-18Z"/><path class="seam" d="M-14-2C7 5 9 18 29 26c17 7 14 20 1 31-14 12-8 29 18 50"/></g>
+    <g class="sheet sheet-b"><path fill="url(#g2)" d="M76-12c-8 17-2 29 12 37 16 10 15 23-2 34-18 12-21 27-2 54h39V-12Z"/><path class="seam" d="M78-9c-9 18-1 29 12 37 14 10 13 22-3 33-17 12-20 27-2 51"/></g>
+    <g class="sheet sheet-c"><path fill="url(#g3)" d="M-13 74c20-9 35-5 44 8 10 15 27 17 42 3 15-14 32-10 46 9v26H-13Z"/><path class="seam" d="M-10 75c20-9 33-4 42 9 11 14 27 16 42 2 15-13 29-9 44 8"/></g>
+  </svg>
+  <div class="shade" aria-hidden="true"></div><div class="grain" aria-hidden="true"></div>
+
+  <section class="intro" aria-labelledby="intro-title">
+    <div class="brand-lockup intro-brand"><img class="logo" src="KOVA.svg" alt="KOVA"/><p class="ritual-name">Black Obsidian Ritual</p></div>
+    <div class="intro-copy"><h1 class="affirmation" id="intro-title">I Stand<br/>In My<br/>Truth</h1><p class="description">Hold your stone. Let what is true become clear.</p></div>
+    <div class="begin-wrap"><button class="begin" type="button">Begin</button><p class="meta">20 seconds · sound on</p></div>
+  </section>
+
+  <section class="ritual" aria-label="Affirmation ritual" aria-hidden="true">
+    <button class="icon-button sound" type="button" aria-label="Turn sound off" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 10v4h3l4 3V7l-4 3H5Z"/><g class="waves"><path d="M15 9.2c1.3 1.55 1.3 4.05 0 5.6"/><path d="M18 6.8c2.7 2.9 2.7 7.5 0 10.4"/></g><path class="slash" d="M4 4l16 16"/></svg></button>
+    <div class="ritual-center"><div class="ritual-copy"><h1 class="affirmation">I Stand<br/>In My<br/>Truth</h1></div><div class="scan-line" aria-hidden="true"></div></div>
+    <button class="icon-button playback" type="button" aria-label="Pause ritual" aria-pressed="false"><svg class="pause-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 7v10M15 7v10"/></svg><svg class="play-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m9 7 8 5-8 5V7Z"/></svg></button>
+    <p class="countdown" aria-live="polite">00:20</p>
+  </section>
+
+  <section class="complete" aria-live="polite" aria-hidden="true">
+    <div class="brand-lockup"><img class="logo" src="KOVA.svg" alt="KOVA"/><p class="ritual-name">Black Obsidian Ritual</p></div>
+    <div class="complete-inner"><h2>Keep what is true<br/>close to you.</h2><p>Move forward with quiet certainty.</p><button class="again" type="button">Begin again</button></div>
+  </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+(()=>{
+  const DURATION=20,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const intro=document.querySelector('.intro'),ritual=document.querySelector('.ritual'),complete=document.querySelector('.complete');
+  const begin=document.querySelector('.begin'),again=document.querySelector('.again'),sound=document.querySelector('.sound'),playback=document.querySelector('.playback'),countdown=document.querySelector('.countdown');
+  let master,timer,audio,gain,melodyTimer,paused=false,muted=false,ending=false;
+  function audioStart(){if(!audio){audio=new(window.AudioContext||window.webkitAudioContext)();gain=audio.createGain();gain.gain.value=.0001;gain.connect(audio.destination)}audio.resume();gain.gain.cancelScheduledValues(audio.currentTime);gain.gain.exponentialRampToValueAtTime(.2,audio.currentTime+1.4);tone(110,.015,4,'sine');tone(165,.01,5,'sine');clearInterval(melodyTimer);melodyTimer=setInterval(()=>tone([220,247,196,165][Math.floor(Math.random()*4)],.025,2.8,'sine'),3600)}
+  function tone(freq,vol,dur,type){if(!audio||muted)return;const o=audio.createOscillator(),g=audio.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.0001,audio.currentTime);g.gain.exponentialRampToValueAtTime(vol,audio.currentTime+.7);g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+dur);o.connect(g);g.connect(gain);o.start();o.stop(audio.currentTime+dur+.1)}
+  function fade(v,d=.4){if(!gain)return;gain.gain.cancelScheduledValues(audio.currentTime);gain.gain.exponentialRampToValueAtTime(Math.max(.0001,v),audio.currentTime+d)}
+  function update(){if(!master)return;const left=Math.max(0,Math.ceil(DURATION-master.time()));countdown.textContent=`00:${String(left).padStart(2,'0')}`}
+  function finish(){if(ending)return;ending=true;clearInterval(timer);clearInterval(melodyTimer);fade(.0001,.8);gsap.timeline().to([ritual,'.ritual-copy'],{autoAlpha:0,duration:.65}).set(ritual,{visibility:'hidden'}).set(complete,{visibility:'visible',autoAlpha:1}).fromTo('.complete-inner',{autoAlpha:0,y:12,filter:'blur(6px)'},{autoAlpha:1,y:0,filter:'blur(0px)',duration:1,ease:'power2.out'});complete.setAttribute('aria-hidden','false')}
+  function build(){master?.kill();gsap.killTweensOf(['.sheet','.mineral','.ritual-copy','.scan-line']);gsap.set('.mineral',{scale:1,rotation:0});gsap.set('.sheet',{xPercent:0,yPercent:0,scale:1,rotation:0,autoAlpha:1});gsap.set('.ritual-copy',{clipPath:'inset(0 100% 0 0)',filter:'brightness(.9)'});gsap.set('.scan-line',{xPercent:0,autoAlpha:0});
+    master=gsap.timeline({paused:true,defaults:{ease:'sine.inOut'},onUpdate:update,onComplete:finish})
+      .to('.ritual-copy',{clipPath:'inset(0 0% 0 0)',duration:reduce?0:3.4,ease:'power2.inOut'},.45)
+      .to('.scan-line',{autoAlpha:.75,duration:.25},.5).to('.scan-line',{xPercent:1100,duration:3.2,ease:'power1.inOut'},.5).to('.scan-line',{autoAlpha:0,duration:.35},3.45)
+      .to('.sheet-a',{xPercent:9,yPercent:-7,scale:1.1,rotation:2.4,duration:6},0).to('.sheet-b',{xPercent:-8,yPercent:8,scale:1.08,rotation:-2,duration:6},0).to('.sheet-c',{xPercent:4,yPercent:-11,scale:1.16,rotation:1.3,duration:6},0)
+      .to('.sheet-a',{xPercent:-6,yPercent:7,scale:.96,rotation:-1.6,duration:7},6).to('.sheet-b',{xPercent:7,yPercent:-9,scale:1.14,rotation:1.8,duration:7},6).to('.sheet-c',{xPercent:-5,yPercent:5,scale:1.02,rotation:-2,duration:7},6)
+      .to('.ritual-copy',{clipPath:'inset(0 0 0 100%)',filter:'brightness(1.25)',duration:1.4,ease:'power2.in'},9.2).set('.ritual-copy',{clipPath:'inset(0 100% 0 0)',filter:'brightness(.9)'},10.65).to('.ritual-copy',{clipPath:'inset(0 0% 0 0)',duration:2.8,ease:'power2.out'},10.7)
+      .set('.scan-line',{xPercent:0},10.7).to('.scan-line',{autoAlpha:.58,duration:.2},10.7).to('.scan-line',{xPercent:1100,duration:2.65,ease:'power1.inOut'},10.7).to('.scan-line',{autoAlpha:0,duration:.3},13.05)
+      .to('.sheet-a',{xPercent:0,yPercent:0,scale:1,rotation:0,duration:7},13).to('.sheet-b',{xPercent:0,yPercent:0,scale:1,rotation:0,duration:7},13).to('.sheet-c',{xPercent:0,yPercent:0,scale:1,rotation:0,duration:7},13);
+  }
+  function start(){if(!window.gsap)return;audioStart();paused=muted=ending=false;sound.setAttribute('aria-pressed','false');playback.setAttribute('aria-pressed','false');build();intro.setAttribute('aria-hidden','true');ritual.setAttribute('aria-hidden','false');complete.setAttribute('aria-hidden','true');gsap.timeline({onComplete:()=>{master.play(0);timer=setInterval(update,200)}}).to(['.intro-copy','.intro-brand','.begin-wrap'],{autoAlpha:0,filter:'blur(7px)',duration:.6,ease:'power2.in'}).set(intro,{autoAlpha:0,visibility:'hidden'}).set(ritual,{autoAlpha:1,visibility:'visible'});}
+  function reset(){clearInterval(timer);clearInterval(melodyTimer);fade(.0001,.5);master?.kill();ending=false;gsap.set([complete,ritual],{autoAlpha:0,visibility:'hidden'});gsap.set(intro,{autoAlpha:1,visibility:'visible'});gsap.set(['.intro-copy','.intro-brand','.begin-wrap'],{clearProps:'all'});intro.setAttribute('aria-hidden','false');ritual.setAttribute('aria-hidden','true');complete.setAttribute('aria-hidden','true')}
+  begin.addEventListener('click',start);again.addEventListener('click',reset);
+  sound.addEventListener('click',()=>{muted=!muted;sound.setAttribute('aria-pressed',String(muted));sound.setAttribute('aria-label',muted?'Turn sound on':'Turn sound off');fade(muted?.0001:.2,.35)});
+  playback.addEventListener('click',()=>{if(!master||ending)return;paused=!paused;playback.setAttribute('aria-pressed',String(paused));playback.setAttribute('aria-label',paused?'Continue ritual':'Pause ritual');paused?(master.pause(),fade(.0001,.25)):(master.resume(),fade(muted?.0001:.2,.35))});
+})();
+</script>
+</body>
+</html>
