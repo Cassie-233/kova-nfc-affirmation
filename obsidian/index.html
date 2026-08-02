@@ -12,11 +12,16 @@
     body{color:#eef0ed;font-family:"Avenir Next",Avenir,"Helvetica Neue",sans-serif}
     button{font:inherit}
     .screen{position:relative;isolation:isolate;width:100vw;height:100svh;min-height:620px;overflow:hidden;background:#090b0c}
-    .base,.mineral,.grain,.shade{position:absolute;inset:0;pointer-events:none}
-    .base{z-index:-5;background:linear-gradient(142deg,#060708 0%,#171a1c 42%,#08090a 75%,#24282b 120%)}
-    .mineral{z-index:-4;width:116%;height:116%;inset:-8%;overflow:visible;filter:contrast(1.03)}
+    .base,.wash-field,.wash,.mineral,.grain,.shade{position:absolute;inset:0;pointer-events:none}
+    .base{z-index:-6;background:linear-gradient(145deg,#111416 0%,#252a2d 31%,#0d0f10 68%,#34393c 110%)}
+    .wash-field{z-index:-5;inset:-20%;overflow:hidden;filter:blur(24px) saturate(.78);transform:scale(1.08)}
+    .wash{inset:-8%;will-change:transform,opacity;background-repeat:no-repeat}
+    .wash-a{background:radial-gradient(ellipse 76% 55% at 18% 25%,rgba(199,204,205,.45) 0%,rgba(109,116,120,.28) 31%,rgba(29,33,35,.06) 68%,transparent 82%),radial-gradient(ellipse 60% 78% at 73% 78%,rgba(110,116,119,.3),transparent 72%)}
+    .wash-b{background:radial-gradient(ellipse 68% 48% at 82% 20%,rgba(75,81,84,.52),rgba(19,22,23,.16) 56%,transparent 79%),radial-gradient(ellipse 80% 44% at 32% 82%,rgba(173,178,179,.34),rgba(56,61,64,.18) 46%,transparent 80%)}
+    .wash-c{background:linear-gradient(128deg,transparent 8%,rgba(186,191,191,.16) 29%,rgba(21,24,25,.04) 52%,rgba(137,143,145,.24) 73%,transparent 94%);mix-blend-mode:screen;opacity:.72}
+    .mineral{z-index:-4;width:124%;height:124%;inset:-12%;overflow:visible;opacity:.24;filter:contrast(.88) blur(5px)}
     .sheet{transform-box:fill-box;transform-origin:center;will-change:transform,opacity}
-    .sheet path{filter:url(#soft-edge)}
+    .sheet path{filter:url(#soft-edge) blur(3px)}
     .seam{fill:none;stroke:#d9dcda;stroke-width:.22;stroke-opacity:.38;filter:url(#seam-glow);vector-effect:non-scaling-stroke}
     .grain{z-index:7;opacity:.28;mix-blend-mode:soft-light;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E")}
     .shade{z-index:-2;background:radial-gradient(ellipse at 50% 47%,transparent 18%,rgba(0,0,0,.12) 64%,rgba(0,0,0,.36) 115%)}
@@ -33,8 +38,9 @@
     .meta{margin:16px 0 0;font-size:8px;letter-spacing:.25em;opacity:.48;white-space:nowrap}
     .ritual{z-index:4;visibility:hidden;opacity:0}
     .ritual-center{position:absolute;top:50%;left:50%;width:min(86vw,420px);transform:translate(-50%,-51%);text-align:center}
-    .ritual-copy{position:relative;clip-path:inset(0 100% 0 0);filter:drop-shadow(0 0 10px rgba(235,239,238,.08))}
-    .scan-line{position:absolute;top:-7%;bottom:-7%;left:-14%;width:11%;opacity:0;transform:skewX(-9deg);background:linear-gradient(90deg,transparent,rgba(243,245,242,.62),transparent);filter:blur(4px);mix-blend-mode:screen;pointer-events:none}
+    .ritual-copy{position:relative;filter:drop-shadow(0 0 10px rgba(235,239,238,.08))}
+    .type-line{display:block}.type-char{display:inline-block;will-change:filter,opacity}
+    .blur-copy{position:absolute;inset:0;margin:0;opacity:0;pointer-events:none;filter:url(#brush-warp) blur(3px);-webkit-mask-image:linear-gradient(103deg,transparent 3%,rgba(0,0,0,.35) 18%,#000 39%,#000 60%,rgba(0,0,0,.35) 82%,transparent 97%);mask-image:linear-gradient(103deg,transparent 3%,rgba(0,0,0,.35) 18%,#000 39%,#000 60%,rgba(0,0,0,.35) 82%,transparent 97%);-webkit-mask-size:42% 160%;mask-size:42% 160%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:-75% 50%;mask-position:-75% 50%;will-change:mask-position,opacity}
     .countdown{position:absolute;left:50%;bottom:max(25px,calc(env(safe-area-inset-bottom) + 16px));margin:0;transform:translateX(-50%);font-size:10px;letter-spacing:.25em;font-variant-numeric:tabular-nums}
     .icon-button{position:absolute;display:grid;place-items:center;width:52px;height:52px;border:1px solid rgba(238,240,237,.28);border-radius:50%;color:#eef0ed;background:rgba(8,10,11,.08);cursor:pointer}
     .icon-button svg{width:18px;height:18px}.sound{top:max(25px,calc(env(safe-area-inset-top) + 10px));right:22px}.playback{left:50%;bottom:max(55px,calc(env(safe-area-inset-bottom) + 46px));transform:translateX(-50%)}
@@ -44,12 +50,13 @@
     .complete h2{margin:0;font-family:Dokdo,"Segoe Print",cursive;font-size:clamp(52px,15vw,76px);font-weight:400;line-height:.82}
     .complete p{margin:28px 0 0;font-family:"Iowan Old Style",Baskerville,serif;font-size:13px;font-style:italic;opacity:.62}
     .again{margin-top:34px;padding:12px 18px;border:0;color:#eef0ed;background:transparent;cursor:pointer;font-size:9px;letter-spacing:.28em;text-transform:uppercase}
-    @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.scan-line{display:none}}
+    @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.blur-copy{display:none}}
   </style>
 </head>
 <body>
 <main class="screen">
   <div class="base" aria-hidden="true"></div>
+  <div class="wash-field" aria-hidden="true"><div class="wash wash-a"></div><div class="wash wash-b"></div><div class="wash wash-c"></div></div>
   <svg class="mineral" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
     <defs>
       <filter id="soft-edge" x="-30%" y="-30%" width="160%" height="160%">
@@ -58,6 +65,7 @@
         <feGaussianBlur stdDeviation=".5"/>
       </filter>
       <filter id="seam-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation=".35"/></filter>
+      <filter id="brush-warp" x="-20%" y="-30%" width="140%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".018 .085" numOctaves="2" seed="27" result="brushNoise"/><feDisplacementMap in="SourceGraphic" in2="brushNoise" scale="9" xChannelSelector="R" yChannelSelector="B"/></filter>
       <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#555b5e" stop-opacity=".5"/><stop offset=".55" stop-color="#202426" stop-opacity=".28"/><stop offset="1" stop-color="#090b0c" stop-opacity=".06"/></linearGradient>
       <linearGradient id="g2" x1="1" y1="0" x2="0" y2="1"><stop stop-color="#81878a" stop-opacity=".25"/><stop offset=".45" stop-color="#303538" stop-opacity=".36"/><stop offset="1" stop-color="#0a0c0d" stop-opacity=".08"/></linearGradient>
       <linearGradient id="g3" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#111415" stop-opacity=".15"/><stop offset=".62" stop-color="#656b6e" stop-opacity=".32"/><stop offset="1" stop-color="#171a1c" stop-opacity=".18"/></linearGradient>
@@ -76,7 +84,7 @@
 
   <section class="ritual" aria-label="Affirmation ritual" aria-hidden="true">
     <button class="icon-button sound" type="button" aria-label="Turn sound off" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 10v4h3l4 3V7l-4 3H5Z"/><g class="waves"><path d="M15 9.2c1.3 1.55 1.3 4.05 0 5.6"/><path d="M18 6.8c2.7 2.9 2.7 7.5 0 10.4"/></g><path class="slash" d="M4 4l16 16"/></svg></button>
-    <div class="ritual-center"><div class="ritual-copy"><h1 class="affirmation">I Stand<br/>In My<br/>Truth</h1></div><div class="scan-line" aria-hidden="true"></div></div>
+    <div class="ritual-center"><div class="ritual-copy"><h1 class="affirmation sharp-copy"><span class="type-line"><span class="type-char">I</span><span class="type-char">&nbsp;</span><span class="type-char">S</span><span class="type-char">t</span><span class="type-char">a</span><span class="type-char">n</span><span class="type-char">d</span></span><span class="type-line"><span class="type-char">I</span><span class="type-char">n</span><span class="type-char">&nbsp;</span><span class="type-char">M</span><span class="type-char">y</span></span><span class="type-line"><span class="type-char">T</span><span class="type-char">r</span><span class="type-char">u</span><span class="type-char">t</span><span class="type-char">h</span></span></h1><h1 class="affirmation blur-copy" aria-hidden="true">I Stand<br/>In My<br/>Truth</h1></div></div>
     <button class="icon-button playback" type="button" aria-label="Pause ritual" aria-pressed="false"><svg class="pause-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 7v10M15 7v10"/></svg><svg class="play-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m9 7 8 5-8 5V7Z"/></svg></button>
     <p class="countdown" aria-live="polite">00:20</p>
   </section>
@@ -98,15 +106,38 @@
   function fade(v,d=.4){if(!gain)return;gain.gain.cancelScheduledValues(audio.currentTime);gain.gain.exponentialRampToValueAtTime(Math.max(.0001,v),audio.currentTime+d)}
   function update(){if(!master)return;const left=Math.max(0,Math.ceil(DURATION-master.time()));countdown.textContent=`00:${String(left).padStart(2,'0')}`}
   function finish(){if(ending)return;ending=true;clearInterval(timer);clearInterval(melodyTimer);fade(.0001,.8);gsap.timeline().to([ritual,'.ritual-copy'],{autoAlpha:0,duration:.65}).set(ritual,{visibility:'hidden'}).set(complete,{visibility:'visible',autoAlpha:1}).fromTo('.complete-inner',{autoAlpha:0,y:12,filter:'blur(6px)'},{autoAlpha:1,y:0,filter:'blur(0px)',duration:1,ease:'power2.out'});complete.setAttribute('aria-hidden','false')}
-  function build(){master?.kill();gsap.killTweensOf(['.sheet','.mineral','.ritual-copy','.scan-line']);gsap.set('.mineral',{scale:1,rotation:0});gsap.set('.sheet',{xPercent:0,yPercent:0,scale:1,rotation:0,autoAlpha:1});gsap.set('.ritual-copy',{clipPath:'inset(0 100% 0 0)',filter:'brightness(.9)'});gsap.set('.scan-line',{xPercent:0,autoAlpha:0});
+  function build(){
+    master?.kill();
+    gsap.killTweensOf(['.sheet','.mineral','.wash','.type-char','.blur-copy']);
+    gsap.set('.mineral',{scale:1.04,rotation:0});
+    gsap.set('.sheet',{xPercent:0,yPercent:0,scale:1,rotation:0,autoAlpha:1});
+    gsap.set('.wash-a',{xPercent:0,yPercent:0,scale:1.05,rotation:0,autoAlpha:1});
+    gsap.set('.wash-b',{xPercent:0,yPercent:0,scale:1.08,rotation:0,autoAlpha:.9});
+    gsap.set('.wash-c',{xPercent:0,yPercent:0,scale:1,rotation:0,autoAlpha:.72});
+    gsap.set('.type-char',{autoAlpha:0,filter:'blur(7px)'});
+    gsap.set('.blur-copy',{autoAlpha:0,webkitMaskPosition:'-75% 50%',maskPosition:'-75% 50%'});
     master=gsap.timeline({paused:true,defaults:{ease:'sine.inOut'},onUpdate:update,onComplete:finish})
-      .to('.ritual-copy',{clipPath:'inset(0 0% 0 0)',duration:reduce?0:3.4,ease:'power2.inOut'},.45)
-      .to('.scan-line',{autoAlpha:.75,duration:.25},.5).to('.scan-line',{xPercent:1100,duration:3.2,ease:'power1.inOut'},.5).to('.scan-line',{autoAlpha:0,duration:.35},3.45)
-      .to('.sheet-a',{xPercent:9,yPercent:-7,scale:1.1,rotation:2.4,duration:6},0).to('.sheet-b',{xPercent:-8,yPercent:8,scale:1.08,rotation:-2,duration:6},0).to('.sheet-c',{xPercent:4,yPercent:-11,scale:1.16,rotation:1.3,duration:6},0)
-      .to('.sheet-a',{xPercent:-6,yPercent:7,scale:.96,rotation:-1.6,duration:7},6).to('.sheet-b',{xPercent:7,yPercent:-9,scale:1.14,rotation:1.8,duration:7},6).to('.sheet-c',{xPercent:-5,yPercent:5,scale:1.02,rotation:-2,duration:7},6)
-      .to('.ritual-copy',{clipPath:'inset(0 0 0 100%)',filter:'brightness(1.25)',duration:1.4,ease:'power2.in'},9.2).set('.ritual-copy',{clipPath:'inset(0 100% 0 0)',filter:'brightness(.9)'},10.65).to('.ritual-copy',{clipPath:'inset(0 0% 0 0)',duration:2.8,ease:'power2.out'},10.7)
-      .set('.scan-line',{xPercent:0},10.7).to('.scan-line',{autoAlpha:.58,duration:.2},10.7).to('.scan-line',{xPercent:1100,duration:2.65,ease:'power1.inOut'},10.7).to('.scan-line',{autoAlpha:0,duration:.3},13.05)
-      .to('.sheet-a',{xPercent:0,yPercent:0,scale:1,rotation:0,duration:7},13).to('.sheet-b',{xPercent:0,yPercent:0,scale:1,rotation:0,duration:7},13).to('.sheet-c',{xPercent:0,yPercent:0,scale:1,rotation:0,duration:7},13);
+      .to('.type-char',{autoAlpha:1,filter:'blur(0px)',duration:reduce?0:.3,stagger:reduce?0:.11,ease:'power1.out'},.35)
+      .to('.wash-a',{xPercent:13,yPercent:-9,scale:1.18,rotation:2.2,duration:6},0)
+      .to('.wash-b',{xPercent:-12,yPercent:11,scale:1.2,rotation:-2.4,autoAlpha:1,duration:6},0)
+      .to('.wash-c',{xPercent:7,yPercent:8,scale:1.14,rotation:1.5,autoAlpha:.9,duration:6},0)
+      .to('.sheet-a',{xPercent:3,yPercent:-2,scale:1.03,rotation:.6,duration:6},0)
+      .to('.sheet-b',{xPercent:-3,yPercent:3,scale:1.04,rotation:-.7,duration:6},0)
+      .to('.blur-copy',{autoAlpha:.92,duration:.45,ease:'sine.out'},4.1)
+      .to('.blur-copy',{webkitMaskPosition:'175% 50%',maskPosition:'175% 50%',duration:4.6,ease:'sine.inOut'},4.1)
+      .to('.blur-copy',{autoAlpha:0,duration:.45,ease:'sine.in'},8.25)
+      .to('.wash-a',{xPercent:-10,yPercent:13,scale:1.28,rotation:-2.8,duration:7},6)
+      .to('.wash-b',{xPercent:14,yPercent:-12,scale:1.12,rotation:2.7,autoAlpha:.78,duration:7},6)
+      .to('.wash-c',{xPercent:-8,yPercent:-9,scale:1.22,rotation:-1.8,autoAlpha:.7,duration:7},6)
+      .to('.sheet-c',{xPercent:-2,yPercent:3,scale:1.04,rotation:-.8,duration:7},6)
+      .set('.blur-copy',{webkitMaskPosition:'175% 42%',maskPosition:'175% 42%'},11.4)
+      .to('.blur-copy',{autoAlpha:.78,duration:.45,ease:'sine.out'},11.4)
+      .to('.blur-copy',{webkitMaskPosition:'-75% 58%',maskPosition:'-75% 58%',duration:4.9,ease:'sine.inOut'},11.4)
+      .to('.blur-copy',{autoAlpha:0,duration:.5,ease:'sine.in'},15.8)
+      .to('.wash-a',{xPercent:0,yPercent:0,scale:1.05,rotation:0,duration:7},13)
+      .to('.wash-b',{xPercent:0,yPercent:0,scale:1.08,rotation:0,autoAlpha:.9,duration:7},13)
+      .to('.wash-c',{xPercent:0,yPercent:0,scale:1,rotation:0,autoAlpha:.72,duration:7},13)
+      .to('.sheet',{xPercent:0,yPercent:0,scale:1,rotation:0,duration:7},13);
   }
   function start(){if(!window.gsap)return;audioStart();paused=muted=ending=false;sound.setAttribute('aria-pressed','false');playback.setAttribute('aria-pressed','false');build();intro.setAttribute('aria-hidden','true');ritual.setAttribute('aria-hidden','false');complete.setAttribute('aria-hidden','true');gsap.timeline({onComplete:()=>{master.play(0);timer=setInterval(update,200)}}).to(['.intro-copy','.intro-brand','.begin-wrap'],{autoAlpha:0,filter:'blur(7px)',duration:.6,ease:'power2.in'}).set(intro,{autoAlpha:0,visibility:'hidden'}).set(ritual,{autoAlpha:1,visibility:'visible'});}
   function reset(){clearInterval(timer);clearInterval(melodyTimer);fade(.0001,.5);master?.kill();ending=false;gsap.set([complete,ritual],{autoAlpha:0,visibility:'hidden'});gsap.set(intro,{autoAlpha:1,visibility:'visible'});gsap.set(['.intro-copy','.intro-brand','.begin-wrap'],{clearProps:'all'});intro.setAttribute('aria-hidden','false');ritual.setAttribute('aria-hidden','true');complete.setAttribute('aria-hidden','true')}
