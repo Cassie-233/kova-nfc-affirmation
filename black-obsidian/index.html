@@ -111,7 +111,7 @@
   const DURATION=20,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const intro=document.querySelector('.intro'),ritual=document.querySelector('.ritual'),complete=document.querySelector('.complete');
   const begin=document.querySelector('.begin'),again=document.querySelector('.again'),sound=document.querySelector('.sound'),playback=document.querySelector('.playback'),countdown=document.querySelector('.countdown');
-  let master,scene,timer,audio,gain,melodyTimer,padStep=0,paused=false,muted=false,ending=false;
+  let master,scene,timer,audio,gain,voices=[],paused=false,muted=false,ending=false;
   const fluidTime={value:0};
   function createFluidRenderer(){
     const canvas=document.getElementById('fluid-canvas'),gl=canvas.getContext('webgl',{alpha:false,antialias:false,powerPreference:'low-power'});if(!gl)return;
@@ -120,17 +120,17 @@
     float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}
     float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1.,0.)),f.x),mix(h(i+vec2(0.,1.)),h(i+1.),f.x),f.y);}
     float f(vec2 p){float v=0.,a=.53;mat2 m=mat2(.8,.6,-.6,.8);for(int i=0;i<5;i++){v+=a*n(p);p=m*p*2.03+vec2(7.1,3.7);a*=.49;}return v;}
-    void main(){vec2 u=gl_FragCoord.xy/r.xy;vec2 p=(u-.5)*vec2(r.x/r.y,1.);float z=t;
-      vec2 q=vec2(f(p*1.55+vec2(z*.055,-z*.038)),f(p*1.47+vec2(4.2,-1.7)+vec2(-z*.041,z*.052)));
-      vec2 w=vec2(f(p*2.15+q*1.45+vec2(1.3,z*.044)),f(p*1.92-q*1.2+vec2(-2.1,-z*.049)));
-      float broad=f(p*1.05+q*1.65+w*.72+vec2(z*.027,-z*.019));
-      float contour=f(p*4.4+w*.8+vec2(-z*.031,z*.025));
+    void main(){vec2 u=gl_FragCoord.xy/r.xy;vec2 p=(u-.5)*vec2(r.x/r.y,1.);float a=fract(t)*6.2831853,z=sin(a),c=cos(a)-1.;
+      vec2 q=vec2(f(p*1.55+vec2(z*.22,c*.16)),f(p*1.47+vec2(4.2,-1.7)+vec2(c*.15,z*.2)));
+      vec2 w=vec2(f(p*2.15+q*1.45+vec2(1.3+z*.12,c*.16)),f(p*1.92-q*1.2+vec2(-2.1+c*.14,z*.18)));
+      float broad=f(p*1.05+q*1.65+w*.72+vec2(c*.09,z*.11));
+      float contour=f(p*4.4+w*.8+vec2(-z*.14,c*.12));
       float softness=mix(.045,.19,smoothstep(.2,.82,contour));
       float value=smoothstep(.49-softness,.55+softness,broad);
-      float shadow=smoothstep(.38,.7,f(p*.78-q*.9+vec2(2.4,-z*.018)));
+      float shadow=smoothstep(.38,.7,f(p*.78-q*.9+vec2(2.4+z*.08,c*.07)));
       value=clamp(value*.88+shadow*.18-.09,0.,1.);
       float silver=mix(.025,.86,value);silver*=.9+.1*smoothstep(.3,.75,contour);
-      float grain=(h(gl_FragCoord.xy+floor(z*18.))-0.5)*.055;
+      float grain=(h(gl_FragCoord.xy)-0.5)*.055;
       silver=clamp(silver+grain,0.,1.);gl_FragColor=vec4(vec3(silver),1.);}`;
     function shader(type,source){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);return s}const program=gl.createProgram();gl.attachShader(program,shader(gl.VERTEX_SHADER,vertex));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);gl.useProgram(program);
     const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);const pos=gl.getAttribLocation(program,'p');gl.enableVertexAttribArray(pos);gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);const resolution=gl.getUniformLocation(program,'r'),time=gl.getUniformLocation(program,'t');
@@ -138,12 +138,13 @@
     function draw(){size();gl.uniform2f(resolution,canvas.width,canvas.height);gl.uniform1f(time,fluidTime.value);gl.drawArrays(gl.TRIANGLES,0,6);requestAnimationFrame(draw)}draw();
   }
   createFluidRenderer();
-  function audioStart(){if(!audio){audio=new(window.AudioContext||window.webkitAudioContext)();gain=audio.createGain();gain.gain.value=.0001;gain.connect(audio.destination)}audio.resume();padStep=0;gain.gain.cancelScheduledValues(audio.currentTime);gain.gain.exponentialRampToValueAtTime(.58,audio.currentTime+1.2);playPad();clearInterval(melodyTimer);melodyTimer=setInterval(playPad,4800)}
-  function playPad(){const chords=[[110,164.81,220,261.63],[98,146.83,196,246.94],[130.81,164.81,196,261.63],[110,146.83,220,293.66]],high=[329.63,392,349.23,440],notes=chords[padStep%chords.length];notes.forEach((f,i)=>tone(f,[.075,.058,.038,.024][i],6.4-i*.25,'sine',i*.12));tone(high[padStep%high.length],.016,3.1,'triangle',1.35);tone(high[(padStep+2)%high.length]*2,.006,2.2,'sine',2.8);padStep++}
-  function tone(freq,vol,dur,type,delay=0){if(!audio||muted)return;const o=audio.createOscillator(),g=audio.createGain(),start=audio.currentTime+delay;o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.0001,start);g.gain.exponentialRampToValueAtTime(vol,start+.85);g.gain.exponentialRampToValueAtTime(.0001,start+dur);o.connect(g);g.connect(gain);o.start(start);o.stop(start+dur+.1)}
+  function audioStart(){if(!audio){audio=new(window.AudioContext||window.webkitAudioContext)();gain=audio.createGain();gain.gain.value=.0001;gain.connect(audio.destination)}stopVoices();audio.resume();gain.gain.cancelScheduledValues(audio.currentTime);gain.gain.exponentialRampToValueAtTime(.52,audio.currentTime+1.1);playScore()}
+  function playScore(){const offset=.55,sections=[{at:0,ch:[110,130.81,164.81,220]},{at:4.15,ch:[87.31,110,130.81,164.81]},{at:8.3,ch:[130.81,164.81,196,246.94]},{at:12.35,ch:[82.41,123.47,164.81,220]}];sections.forEach((s,k)=>{s.ch.forEach((f,i)=>tone(f,[.062,.041,.031,.019][i],4.9-i*.18,'sine',offset+s.at+i*.11,.75));const melody=[s.ch[2]*2,s.ch[3]*2,s.ch[1]*2];melody.forEach((f,i)=>tone(f,.011-i*.002,1.25,'triangle',offset+s.at+1.05+i*1.08,.24))});const end=offset+16.05;[110,164.81,220,261.63].forEach((f,i)=>tone(f,[.072,.042,.03,.017][i],4.25-i*.12,'sine',end+i*.14,1.05));tone(440,.012,1.8,'triangle',end+1.65,.38);tone(659.25,.006,1.25,'sine',end+2.75,.3)}
+  function tone(freq,vol,dur,type,delay=0,attack=.85){if(!audio)return;const o=audio.createOscillator(),g=audio.createGain(),start=audio.currentTime+delay;o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.0001,start);g.gain.exponentialRampToValueAtTime(vol,start+attack);g.gain.exponentialRampToValueAtTime(.0001,start+dur);o.connect(g);g.connect(gain);voices.push(o);o.onended=()=>{voices=voices.filter(v=>v!==o)};o.start(start);o.stop(start+dur+.1)}
+  function stopVoices(){voices.forEach(o=>{try{o.stop()}catch(e){}});voices=[]}
   function fade(v,d=.4){if(!gain)return;gain.gain.cancelScheduledValues(audio.currentTime);gain.gain.exponentialRampToValueAtTime(Math.max(.0001,v),audio.currentTime+d)}
   function update(){if(!master)return;const left=Math.max(0,Math.ceil(DURATION-master.time()));countdown.textContent=`00:${String(left).padStart(2,'0')}`}
-  function finish(){if(ending)return;ending=true;clearInterval(timer);clearInterval(melodyTimer);fade(.0001,.8);scene?.kill();scene=gsap.timeline().to([ritual,'.ritual-copy'],{autoAlpha:0,duration:.65}).set(ritual,{visibility:'hidden'}).set(complete,{visibility:'visible',autoAlpha:1}).fromTo('.complete-inner',{autoAlpha:0,y:12,filter:'blur(6px)'},{autoAlpha:1,y:0,filter:'blur(0px)',duration:1,ease:'power2.out'});complete.setAttribute('aria-hidden','false')}
+  function finish(){if(ending)return;ending=true;clearInterval(timer);fade(.0001,1.25);scene?.kill();scene=gsap.timeline().to([ritual,'.ritual-copy'],{autoAlpha:0,duration:.65}).set(ritual,{visibility:'hidden'}).set(complete,{visibility:'visible',autoAlpha:1}).fromTo('.complete-inner',{autoAlpha:0,y:12,filter:'blur(6px)'},{autoAlpha:1,y:0,filter:'blur(0px)',duration:1,ease:'power2.out'});complete.setAttribute('aria-hidden','false')}
   function build(){
     master?.kill();
     gsap.killTweensOf([fluidTime,'.tone','.type-char']);
@@ -157,24 +158,24 @@
     const pathOne=[0,2,7,3,8,12,4,9,13,5,10,14,6,11,15,16].map(i=>chars[i]).filter(Boolean);
     master=gsap.timeline({paused:true,defaults:{ease:'sine.inOut'},onUpdate:update,onComplete:finish})
       .to('.type-char',{autoAlpha:1,filter:'blur(0px)',duration:reduce?0:.3,stagger:reduce?0:.11,ease:'power1.out'},.35)
-      .to(fluidTime,{value:1.8,duration:6.2,ease:'sine.inOut'},0)
+      .to(fluidTime,{value:.28,duration:6.2,ease:'sine.inOut'},0)
       .to('.tone-deep',{autoAlpha:.08,duration:5.6},0)
       .to('.tone-pearl',{autoAlpha:.14,duration:5.6},0)
       .to(pathOne,{filter:'blur(5px)',duration:1.3,stagger:.22,ease:'sine.inOut'},4.0)
       .to(pathOne,{filter:'blur(0px)',duration:1.55,stagger:.22,ease:'sine.inOut'},5.25)
-      .to(fluidTime,{value:5.2,duration:6.8,ease:'power2.inOut'},6.2)
+      .to(fluidTime,{value:.68,duration:6.8,ease:'power2.inOut'},6.2)
       .to('.tone-deep',{autoAlpha:.01,duration:7},5.6)
       .to('.tone-pearl',{autoAlpha:.2,duration:7},5.6)
-      .to(fluidTime,{value:7.4,duration:7,ease:'sine.inOut'},13)
+      .to(fluidTime,{value:1,duration:7,ease:'sine.inOut'},13)
       .to('.tone-deep',{autoAlpha:.04,duration:7.4},12.6)
       .to('.tone-pearl',{autoAlpha:.1,duration:7.4},12.6)
       .to('.sheet',{xPercent:0,yPercent:0,scale:1,rotation:0,duration:7},13);
   }
-  function start(){if(!window.gsap)return;scene?.kill();clearInterval(timer);audioStart();paused=muted=ending=false;sound.setAttribute('aria-pressed','false');playback.setAttribute('aria-pressed','false');build();intro.setAttribute('aria-hidden','true');ritual.setAttribute('aria-hidden','false');complete.setAttribute('aria-hidden','true');gsap.set(complete,{autoAlpha:0,visibility:'hidden'});scene=gsap.timeline({onComplete:()=>{master.play(0);timer=setInterval(update,200)}}).to(['.intro-copy','.intro-brand','.begin-wrap'],{autoAlpha:0,filter:'blur(7px)',duration:.6,ease:'power2.in'}).set(intro,{autoAlpha:0,visibility:'hidden'}).set(ritual,{autoAlpha:1,visibility:'visible'});}
-  function reset(){clearInterval(timer);clearInterval(melodyTimer);fade(.0001,.5);scene?.kill();master?.kill();gsap.killTweensOf([fluidTime,intro,ritual,complete,'.intro-copy','.intro-brand','.begin-wrap','.complete-inner','.ritual-copy','.type-char']);fluidTime.value=0;ending=paused=false;gsap.set([complete,ritual],{autoAlpha:0,visibility:'hidden'});gsap.set(intro,{autoAlpha:1,visibility:'visible'});gsap.set(['.intro-copy','.intro-brand','.begin-wrap','.complete-inner','.ritual-copy'],{clearProps:'all'});gsap.set('.type-char',{clearProps:'all'});countdown.textContent='00:20';intro.setAttribute('aria-hidden','false');ritual.setAttribute('aria-hidden','true');complete.setAttribute('aria-hidden','true')}
+  function start(){if(!window.gsap)return;scene?.kill();clearInterval(timer);paused=muted=ending=false;audioStart();sound.setAttribute('aria-pressed','false');playback.setAttribute('aria-pressed','false');build();intro.setAttribute('aria-hidden','true');ritual.setAttribute('aria-hidden','false');complete.setAttribute('aria-hidden','true');gsap.set(complete,{autoAlpha:0,visibility:'hidden'});scene=gsap.timeline({onComplete:()=>{master.play(0);timer=setInterval(update,200)}}).to(['.intro-copy','.intro-brand','.begin-wrap'],{autoAlpha:0,filter:'blur(7px)',duration:.6,ease:'power2.in'}).set(intro,{autoAlpha:0,visibility:'hidden'}).set(ritual,{autoAlpha:1,visibility:'visible'});}
+  function reset(){clearInterval(timer);stopVoices();fade(.0001,.5);scene?.kill();master?.kill();gsap.killTweensOf([fluidTime,intro,ritual,complete,'.intro-copy','.intro-brand','.begin-wrap','.complete-inner','.ritual-copy','.type-char']);fluidTime.value=0;ending=paused=false;gsap.set([complete,ritual],{autoAlpha:0,visibility:'hidden'});gsap.set(intro,{autoAlpha:1,visibility:'visible'});gsap.set(['.intro-copy','.intro-brand','.begin-wrap','.complete-inner','.ritual-copy'],{clearProps:'all'});gsap.set('.type-char',{clearProps:'all'});countdown.textContent='00:20';intro.setAttribute('aria-hidden','false');ritual.setAttribute('aria-hidden','true');complete.setAttribute('aria-hidden','true')}
   begin.addEventListener('click',start);again.addEventListener('click',reset);
-  sound.addEventListener('click',()=>{muted=!muted;sound.setAttribute('aria-pressed',String(muted));sound.setAttribute('aria-label',muted?'Turn sound on':'Turn sound off');fade(muted?.0001:.62,.35)});
-  playback.addEventListener('click',()=>{if(!master||ending)return;paused=!paused;playback.setAttribute('aria-pressed',String(paused));playback.setAttribute('aria-label',paused?'Continue ritual':'Pause ritual');paused?(master.pause(),fade(.0001,.25)):(master.resume(),fade(muted?.0001:.62,.35))});
+  sound.addEventListener('click',()=>{muted=!muted;sound.setAttribute('aria-pressed',String(muted));sound.setAttribute('aria-label',muted?'Turn sound on':'Turn sound off');fade(muted?.0001:.52,.35)});
+  playback.addEventListener('click',()=>{if(!master||ending)return;paused=!paused;playback.setAttribute('aria-pressed',String(paused));playback.setAttribute('aria-label',paused?'Continue ritual':'Pause ritual');paused?(master.pause(),fade(.0001,.25)):(master.resume(),fade(muted?.0001:.52,.35))});
 })();
 </script>
 </body>
